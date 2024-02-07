@@ -17,8 +17,9 @@ docker run -d --name redis -p 6379:6379 redis
 
 ## Features
 
-- 🔐 Simple authentication w/ email & password
+- 🔐 Simple authentication w/ `email` & `password`
 - 🔄 Automatically reload Hotwire Turbo power by [hotwire-livereload](https://github.com/kirillplatonov/hotwire-livereload)
+- 📧 Email SMTP config & Preview mail in the browser on development power by [letter_opener](https://github.com/ryanb/letter_opener)
 
 ## TODO
 
