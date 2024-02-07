@@ -31,6 +31,7 @@ gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 group :development, :test do
+  gem "dotenv"
   gem "debug", platforms: %i[ mri windows ]
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false

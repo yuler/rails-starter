@@ -13,4 +13,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "welcome#index"
+
+  # Define test route for only development, test env
+  get "test" => "test#index"
 end
