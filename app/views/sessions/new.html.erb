@@ -1,7 +1,7 @@
 <h1 class="text-2xl font-bold">Sign In</h1>
 
-<%= form_with model: @user, url: registration_path, html: {class: 'mt-8 space-y-6'} do |form| %>
-  <%= render partial: "shared/form_errors", locals: { errors: form.object.errors } %>
+<%= form_with model: @user, url: session_path, html: {class: 'mt-8 space-y-6'} do |form| %>
+  <%= render partial: "shared/form_errors", locals: { errors: form.object&.errors } %>
 
   <div class="relative border border-gray-100 bg-offwhite rounded-xl focus-within:bg-white focus-within:shadow focus-within:opacity-100">
     <%= form.label :email, class: 'p-4 pb-0 block text-sm font-medium text-gray-700' %>
@@ -11,6 +11,10 @@
   <div class="relative border border-gray-100 bg-offwhite rounded-xl focus-within:bg-white focus-within:shadow focus-within:opacity-100">
     <%= form.label :password, "Password", class: 'p-4 pb-0 block text-sm font-medium text-gray-700' %>
     <%= form.password_field :password, autocomplete: "new-password", class: 'p-4 pt-1 bg-transparent border-none opacity-50 focus:outline-none focus:ring-0 focus-within:opacity-100 w-full' %>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <%= link_to "Sign Up", new_registration_path, class: 'text-sm underline font-medium text-gray-600 hover:text-gray-900' %>
   </div>
 
   <div>
