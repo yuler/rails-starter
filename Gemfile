@@ -29,6 +29,7 @@ gem "turbo-rails", github: "hotwired/turbo-rails", branch: "main"
 gem "bcrypt", "~> 3.1.7"
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "web-push"
 
 group :development, :test do
   gem "dotenv"

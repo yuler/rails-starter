@@ -7,6 +7,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <meta name="vapid-public-key" content="<%= ENV['VAPID_PUBLIC_KEY'].delete('=') %>">
+
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
