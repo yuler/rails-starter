@@ -1,1 +1,9 @@
-APP_DOMAIN: <%= ENV["APP_DOMAIN"] %>
+<div id="top" class="text-lg font-bold">Top</div>
+
+<% 1000.times do |index| %>
+  <p><%= index %></p>
+<% end %>
+
+<a data-controller="anchor" data-action="anchor#scroll" href="#top">scroll</a>
+
+<button data-controller="copy-to-clipboard" data-action="copy-to-clipboard#copy" data-copy-to-clipboard-success-class="bg-green-500" data-copy-to-clipboard-content-value="content" >Copy Content</button>
