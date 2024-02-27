@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 554e5c2d8e8dd9f9e302a2d11c775f14c512d957
+  revision: 0a9ca0107cf868dbcaee8484a994ed577b98fba1
   branch: main
   specs:
     actioncable (7.2.0.alpha)
@@ -219,7 +219,7 @@ GEM
     puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.7.3)
-    rack (3.0.9)
+    rack (3.0.9.1)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -246,7 +246,7 @@ GEM
     redis-client (0.19.1)
       connection_pool
     regexp_parser (2.9.0)
-    reline (0.4.2)
+    reline (0.4.3)
       io-console (~> 0.5)
     rexml (3.2.6)
     rubocop (1.60.2)
@@ -318,7 +318,7 @@ GEM
       railties (>= 6.0.0)
     tailwindcss-rails (2.3.0-x86_64-linux)
       railties (>= 6.0.0)
-    thor (1.3.0)
+    thor (1.3.1)
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
