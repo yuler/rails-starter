@@ -1,6 +1,10 @@
 source "https://rubygems.org"
+# Or use a mirror
+# source "https://gems.ruby-china.com"
 
-ruby "3.3.0"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby File.read(File.join(File.dirname(__FILE__), ".ruby-version")).strip
 
 # Rails
 gem "rails", github: "rails/rails", branch: "main"
