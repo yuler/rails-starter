@@ -11,8 +11,11 @@ class User < ApplicationRecord
     password_salt&.last(10)
   end
 
-
   def send_welcome_email
     UserMailer.with(user: self).welcome.deliver_later
+  end
+
+  def send_password_reset_email
+    UserMailer.with(user: self).password_reset.deliver_later
   end
 end
