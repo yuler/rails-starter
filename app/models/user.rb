@@ -1,12 +1,13 @@
 class User < ApplicationRecord
-  has_secure_password
-
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true, uniqueness: true
-  validates :password, presence: true, length: { minimum: 8 }
+  validates :password, length: { minimum: 8 }
 
   normalizes :email, with: ->(email) { email.strip.downcase }
 
   after_commit :send_welcome_email, on: :create
+
+  # refs: https://api.rubyonrails.org/v7.1.3.2/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password
+  has_secure_password
 
   # Generates
 
