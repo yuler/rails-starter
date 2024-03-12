@@ -1,6 +1,27 @@
 <h1>Home</h1>
 
-<%= Current.user %>
+<% if signed_in? %>
+  <%= tag.div do %>
+    <code class="break-words">
+      <%= Current.user.to_json() %>
+    </code>
+  <% end %>
+
+  <br>
+  <br>
+  <br>
+
+  <% unless Current.user.confirmed? %>
+    <h2 class="text-lg font-bold">Your email is unconfirmed</h2>
+    <%= form_with model: @user, url: confirmation_path, html: {class: 'mt-8 space-y-6'} do |form| %>
+      <%= form.submit "Send password reset email", class: 'flex justify-center w-full px-4 py-3 text-sm font-medium text-white bg-black rounded-xl hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-200 shadow cursor-pointer' %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<br>
+<br>
+<br>
 
 <%= 
   button_to "Sign Out", session_path, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, 
