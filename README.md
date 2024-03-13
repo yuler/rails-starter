@@ -15,6 +15,10 @@ docker run -d --name redis -p 6379:6379 redis
 ./bin/dev
 ```
 
+## Deployment
+
+- [Register GitHub OAuth Application](https://github.com/settings/applications/new)
+
 ## Features
 
 - 🔐 Simple authentication w/ `email` & `password`
