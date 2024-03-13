@@ -27,6 +27,10 @@
 <br>
 <br>
 
-<%= form_with url: authorization_path, html: {class: 'mt-8 space-y-6'}, data: {turbo: false} do |form| %>
-  <%= form.submit "Sign with GitHub", class: 'flex justify-center w-full px-4 py-3 text-sm font-medium text-white bg-black rounded-xl hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-200 shadow' %>
+<%= form_tag('/auth/github', method: 'post', data: {turbo: false}) do %>
+  <button type='submit'>Login with GitHub</button>
 <% end %>
+
+<%#= form_with url: authorization_path, html: {class: 'mt-8 space-y-6'}, data: {turbo: false} do |form| %>
+  <%#= form.submit "Sign with GitHub", class: 'flex justify-center w-full px-4 py-3 text-sm font-medium text-white bg-black rounded-xl hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-200 shadow' %>
+<%# end %>

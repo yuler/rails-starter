@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  enum provider: %i[github]
+
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true, uniqueness: true
   validates :password, length: { minimum: 8 }, if: -> { password.present? }
 
