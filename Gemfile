@@ -29,6 +29,11 @@ gem "turbo-rails", github: "hotwired/turbo-rails", branch: "main"
 # Media handling
 # gem "image_processing", "~> 1.2"
 
+# OAuth2
+gem "omniauth"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-github", "~> 2.0.0"
+
 # Other
 gem "bcrypt", "~> 3.1.7"
 gem "jbuilder"

@@ -1,16 +1,16 @@
 GIT
   remote: https://github.com/hotwired/turbo-rails.git
-  revision: 47b612bdeb393f28c838686393788b24edbd47a2
+  revision: a167573a6bc3e1dab749c5ec41aefc5cbc4197dd
   branch: main
   specs:
-    turbo-rails (2.0.0.pre.rc.3)
+    turbo-rails (2.0.5)
       actionpack (>= 6.0.0)
       activejob (>= 6.0.0)
       railties (>= 6.0.0)
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 554e5c2d8e8dd9f9e302a2d11c775f14c512d957
+  revision: 93b89b170bbfabb7c456950512845a0fc68ba002
   branch: main
   specs:
     actioncable (7.2.0.alpha)
@@ -135,37 +135,43 @@ GEM
     debug (1.9.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    dotenv (3.0.1)
-    drb (2.2.0)
-      ruby2_keywords
+    dotenv (3.1.0)
+    drb (2.2.1)
     erubi (1.12.0)
+    faraday (2.9.0)
+      faraday-net_http (>= 2.0, < 3.2)
+    faraday-net_http (3.1.0)
+      net-http
     ffi (1.16.3)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hashie (5.0.0)
     hotwire-livereload (1.3.1)
       actioncable (>= 6.0.0)
       listen (>= 3.0.0)
       railties (>= 6.0.0)
-    i18n (1.14.1)
+    i18n (1.14.4)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.0.1)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.7.2)
-    irb (1.11.2)
+    irb (1.12.0)
       rdoc
       reline (>= 0.4.2)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.7.1)
+    jwt (2.8.1)
+      base64
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
     letter_opener (1.9.0)
       launchy (>= 2.2, < 3)
-    listen (3.8.0)
+    listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.22.0)
@@ -176,11 +182,14 @@ GEM
       net-imap
       net-pop
       net-smtp
-    marcel (1.0.2)
+    marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
     minitest (5.21.2)
     msgpack (1.7.2)
+    multi_xml (0.6.0)
+    net-http (0.4.1)
+      uri
     net-imap (0.4.10)
       date
       net-protocol
@@ -203,11 +212,31 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
+    oauth2 (2.0.9)
+      faraday (>= 0.17.3, < 3.0)
+      jwt (>= 1.0, < 3.0)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0)
+      version_gem (~> 1.1)
+    omniauth (2.1.2)
+      hashie (>= 3.4.6)
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-github (2.0.1)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8)
+    omniauth-oauth2 (1.8.0)
+      oauth2 (>= 1.4, < 3)
+      omniauth (~> 2.0)
+    omniauth-rails_csrf_protection (1.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
     parallel (1.24.0)
     parser (3.3.0.5)
       ast (~> 2.4.1)
       racc
-    prism (0.21.0)
+    prism (0.24.0)
     propshaft (0.8.0)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
@@ -219,7 +248,10 @@ GEM
     puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.7.3)
-    rack (3.0.9)
+    rack (3.0.9.1)
+    rack-protection (4.0.0)
+      base64 (>= 0.1.0)
+      rack (>= 3.0.0, < 4)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -243,13 +275,13 @@ GEM
       psych (>= 4.0.0)
     redis (5.1.0)
       redis-client (>= 0.17.0)
-    redis-client (0.19.1)
+    redis-client (0.21.0)
       connection_pool
     regexp_parser (2.9.0)
-    reline (0.4.2)
+    reline (0.4.3)
       io-console (~> 0.5)
     rexml (3.2.6)
-    rubocop (1.60.2)
+    rubocop (1.62.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -257,46 +289,48 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.30.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.30.0)
-      parser (>= 3.2.1.0)
-    rubocop-minitest (0.34.5)
-      rubocop (>= 1.39, < 2.0)
-      rubocop-ast (>= 1.30.0, < 2.0)
+    rubocop-ast (1.31.2)
+      parser (>= 3.3.0.4)
+    rubocop-minitest (0.35.0)
+      rubocop (>= 1.61, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-performance (1.20.2)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
-    rubocop-rails (2.23.1)
+    rubocop-rails (2.24.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-      rubocop-ast (>= 1.30.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rails-omakase (1.0.0)
       rubocop
       rubocop-minitest
       rubocop-performance
       rubocop-rails
-    ruby-lsp (0.14.0)
+    ruby-lsp (0.14.5)
       language_server-protocol (~> 3.17.0)
-      prism (>= 0.19.0, < 0.22)
+      prism (>= 0.22.0, < 0.25)
       sorbet-runtime (>= 0.5.10782)
-    ruby-lsp-rails (0.2.10)
+    ruby-lsp-rails (0.3.2)
       actionpack (>= 6.0)
       activerecord (>= 6.0)
       railties (>= 6.0)
-      ruby-lsp (>= 0.14.0, < 0.15.0)
+      ruby-lsp (>= 0.14.2, < 0.15.0)
       sorbet-runtime (>= 0.5.9897)
     ruby-progressbar (1.13.0)
-    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
-    selenium-webdriver (4.17.0)
+    selenium-webdriver (4.18.1)
       base64 (~> 0.2)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sorbet-runtime (0.5.11249)
+    snaky_hash (2.0.1)
+      hashie
+      version_gem (~> 1.1, >= 1.1.1)
+    sorbet-runtime (0.5.11292)
     sqlite3 (1.7.2-aarch64-linux)
     sqlite3 (1.7.2-arm-linux)
     sqlite3 (1.7.2-arm64-darwin)
@@ -318,12 +352,14 @@ GEM
       railties (>= 6.0.0)
     tailwindcss-rails (2.3.0-x86_64-linux)
       railties (>= 6.0.0)
-    thor (1.3.0)
+    thor (1.3.1)
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
+    uri (0.13.0)
     useragent (0.16.10)
+    version_gem (1.1.3)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -357,6 +393,9 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   letter_opener
+  omniauth
+  omniauth-github (~> 2.0.0)
+  omniauth-rails_csrf_protection
   propshaft
   puma (>= 5.0)
   rails!
@@ -375,4 +414,4 @@ RUBY VERSION
    ruby 3.3.0p0
 
 BUNDLED WITH
-   2.5.5
+   2.5.6
