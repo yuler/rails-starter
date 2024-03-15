@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resource :session, only: %i[new create destroy]
   resource :confirmation, only: %i[show create]
   resource :password_reset, only: %i[new create edit update]
+  resource :password, only: %i[edit update]
 
   # OAuth2 callback route
   get "auth/:provider/callback", to: "omniauth_callbacks#show"
