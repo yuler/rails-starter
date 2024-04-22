@@ -10,7 +10,7 @@ ruby file: ".ruby-version"
 gem "rails", github: "rails/rails", branch: "main"
 
 # Drivers
-gem "sqlite3", "~> 1.4"
+gem "sqlite3", "~> 2.0"
 gem "redis", ">= 4.0.1"
 
 # Deployment
