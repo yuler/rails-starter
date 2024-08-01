@@ -3,7 +3,7 @@
 > Rails app starter template
 
 ```bash
-rails new --main rails-starter -a propshaft -c tailwindcss --database sqlite3
+rails new --main rails-starter -a propshaft -c tailwind --database sqlite3
 ```
 
 ## Development
