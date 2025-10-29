@@ -1,0 +1,19 @@
+{
+  "name": "app",
+  "private": true,
+  "packageManager": "bun@1.2.18",
+  "scripts": {
+    "dev": "./bin/dev",
+    "setup": "./bin/setup",
+    "build": "bun bun.config.js",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.20"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.16",
+    "tailwindcss": "^4.1.16"
+  }
+}
