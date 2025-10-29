@@ -41,7 +41,7 @@ ARG BUN_VERSION=1.2.18
 RUN curl -fsSL https://bun.sh/install | bash -s -- "bun-v${BUN_VERSION}"
 
 # Install application gems
-COPY Gemfile Gemfile.lock vendor ./
+COPY .ruby-version Gemfile Gemfile.lock vendor ./
 
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
