@@ -13,4 +13,6 @@ bin/dev
 
 ## Features
 
-- xxx
+- Uses PostgreSQL instead of the default SQLite database
+- Uses `jsbundling-rails`, `cssbundling-rails`, and Bun for frontend asset bundling
+- Includes authentication system via `rails generate authentication`
