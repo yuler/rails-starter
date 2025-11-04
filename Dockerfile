@@ -81,6 +81,12 @@ COPY --chown=rails:rails --from=build /rails /rails
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
+# Set version and revision
+ARG APP_VERSION
+ENV APP_VERSION=$APP_VERSION
+ARG GIT_REVISION
+ENV GIT_REVISION=$GIT_REVISION
+
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
 CMD ["./bin/thrust", "./bin/rails", "server"]
