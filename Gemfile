@@ -32,6 +32,8 @@ gem "stimulus-rails"
 # Media handling
 gem "image_processing", "~> 1.2"
 
+# API
+gem "jwt"
 
 # Others
 gem "jbuilder"

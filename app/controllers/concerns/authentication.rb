@@ -3,6 +3,7 @@ module Authentication
 
   included do
     before_action :require_authentication
+    # before_action: set_sentry_context, TODO:
     helper_method :authenticated?
   end
 
@@ -10,6 +11,8 @@ module Authentication
     def allow_unauthenticated_access(**options)
       skip_before_action :require_authentication, **options
     end
+
+    alias_method :skip_authentication, :allow_unauthenticated_access
   end
 
   private
