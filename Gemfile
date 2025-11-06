@@ -34,9 +34,9 @@ gem "image_processing", "~> 1.2"
 
 # API
 gem "jwt"
+gem "jbuilder"
 
 # Others
-gem "jbuilder"
 gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 

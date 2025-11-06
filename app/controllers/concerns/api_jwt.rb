@@ -6,13 +6,18 @@ module ApiJwt
   SECRET_KEY = Rails.application.secret_key_base
 
   def generate_user_jwt_token(user)
-    jwt_encode(user_id: user.id)
+    jwt_encode({ user_id: user.id })
   end
 
-  def authenticate_user_jwt_token!(token)
+  def authenticate_user_from_jwt_token(token)
+    return nil if token.blank?
+
     decoded_token = jwt_decode(token)
-    raise JWT::DecodeError, "Invalid token" unless decoded_token["user_id"].present?
-    User.find(decoded_token["user_id"])
+    return nil unless decoded_token["user_id"].present?
+
+    User.find_by(id: decoded_token["user_id"])
+  rescue JWT::DecodeError, JWT::ExpiredSignature
+    nil
   end
 
   private

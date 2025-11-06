@@ -12,29 +12,58 @@ class Api::V1::BaseController < ApplicationController
   # Skip CSRF protection for API endpoints
   skip_before_action :verify_authenticity_token
 
-  before_action :api_authentication
+  # API authentication
+  before_action :require_api_authentication
+
+  class << self
+    def allow_api_unauthenticated_access(**options)
+      skip_before_action :require_api_authentication, **options
+    end
+    alias_method :skip_api_authentication, :allow_api_unauthenticated_access
+  end
+
+  # JSON responses
+  def render_json_ok
+    render json: { message: "OK" }, status: :ok
+  end
+  def render_json_created(json: {})
+    render json: json, status: :created
+  end
+  def render_json_unauthorized
+    render_json_error(status: :unauthorized, message: "Unauthorized", code: "UNAUTHORIZED")
+  end
+  def render_json_not_found
+    render_json_error(status: :not_found, message: "Not Found", code: "NOT_FOUND")
+  end
+  def render_json_too_many_requests
+    render_json_error(status: :too_many_requests, message: "Too Many Requests", code: "TOO_MANY_REQUESTS")
+  end
+  def render_json_error(status:, message:, code: nil)
+    render json: { code:, message: }, status:
+  end
+  def render_json(json: {}, status: :ok)
+    render json: json, status: status
+  end
 
   private
-    def api_authentication
-      return if api_jwt_authenticated?
-      render_json_unauthorized
+    def require_api_authentication
+      current_user || render_json_unauthorized
     end
 
-    def api_jwt_authenticated?
-      bearer_token = request.headers["Authorization"]&.split(" ")&.last
-      query_token = request.query_parameters["token"]
-      token = query_token || bearer_token
-
-      @current_user = authenticate_user_jwt_token!(token)
-    rescue JWT::DecodeError => e
-      render_json_unauthorized(e.message)
+    def find_user_by_jwt_token
+      authenticate_user_from_jwt_token(extract_jwt_token)
     end
 
-    def render_json_unauthorized(message = "You need to authenticate to access this resource, please check the documentation for more details. https://example.com/docs")
-      render json: { error: "unauthorized", message: message }, status: :unauthorized
+    def extract_jwt_token
+      # Bearer token
+      authorization_header = request.headers["Authorization"]
+      return authorization_header.split(" ").last if authorization_header&.start_with?("Bearer ")
+
+      # Fallback to query parameter
+      params[:token]
     end
 
-    def render_json_too_many_requests
-      render json: { error: "too many requests", message: "You have exceeded the rate limit. Please try again later." }, status: :too_many_requests
+    def current_user
+      @current_user ||= find_user_by_jwt_token
     end
 end
