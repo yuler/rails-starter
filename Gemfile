@@ -40,6 +40,12 @@ gem "jbuilder"
 gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
+# HTTP Clients
+gem "faraday"
+# gem "faraday-retry"
+# gem "faraday-multipart"
+# gem "faraday-follow_redirects"
+
 # Deploy
 gem "kamal", require: false
 gem "thruster", require: false
