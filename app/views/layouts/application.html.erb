@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
   <head>
     <title><%= content_for(:title) || "Rails Starter" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -24,12 +24,8 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render "shared/flash" %>
 
-    <footer id="footer" class="max-w-6xl mx-auto px-4 py-2 mt-8">
-      <div class="flex gap-2 text-sm text-gray-600 dark:text-gray-400">
-        <span>Git Revision:</span> <%= git_revision_badge %>
-      </div>
-    </footer>
+    <%= yield %>
   </body>
 </html>
