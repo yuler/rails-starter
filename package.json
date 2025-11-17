@@ -6,7 +6,8 @@
     "dev": "./bin/dev",
     "setup": "./bin/setup",
     "build": "bun bun.config.js",
-    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
+    "icon:download": "ruby ./script/icon_download.rb"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
