@@ -9,6 +9,10 @@ class InviteCode < ApplicationRecord
       end
     end
 
+    def valid?(code)
+      find_by(code: code&.downcase).present?
+    end
+
     def generate!
       create!.code
     end

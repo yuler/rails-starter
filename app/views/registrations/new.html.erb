@@ -13,7 +13,9 @@
         <h2 class="text-3xl font-bold text-gray-900 mb-8">Sign up</h2>
 
         <!-- Form -->
-        <%= form_with url: session_path, class: "flex flex-col gap-4" do |form| %>
+        <%= form_with url: registration_path, class: "flex flex-col gap-4" do |form| %>
+          <%= render "shared/form_errors", model: @user %>
+
           <!-- Email Field -->
           <label class="form-control">
             <div class="label">
@@ -23,7 +25,7 @@
               <span class="absolute inset-y-0 left-0 flex items-center pl-4">
                 <%= image_tag "email.svg", class: "w-5 h-5 text-gray-500 z-10" %>
               </span>
-              <%= form.email_field :email, required: true, autofocus: true, autocomplete: "username", placeholder: "Your email", value: params[:email], class: "input input-bordered w-full pl-12" %>
+              <%= form.email_field :email, value: @user&.email, required: true, autofocus: true, autocomplete: "username", placeholder: "Your email", class: "input input-bordered w-full pl-12" %>
             </div>
           </label>
 
@@ -49,7 +51,7 @@
               <span class="absolute inset-y-0 left-0 flex items-center pl-4">
                 <%= image_tag "rectangle-ellipsis.svg", class: "w-5 h-5 text-gray-500 z-10" %>
               </span>
-              <%= form.text_field :invite_code, required: true, autocomplete: "off", placeholder: "Your invite code", class: "input input-bordered w-full pl-12" %>
+              <%= text_field_tag :invite_code, @invite_code, required: true, autocomplete: "off", placeholder: "Your invite code", class: "input input-bordered w-full pl-12" %>
             </div>
           </label>
 
