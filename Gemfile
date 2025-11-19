@@ -14,7 +14,7 @@ gem "solid_cable"
 
 # Drivers
 gem "pg", "~> 1.1"
-# gem "sqlite3", "~> 1.4"
+# gem "sqlite3", ">= 2.8"
 
 # Deployment
 gem "puma", ">= 5.0"
