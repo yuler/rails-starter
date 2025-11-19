@@ -144,6 +144,10 @@ GEM
     image_processing (1.14.0)
       mini_magick (>= 4.9.5, < 6)
       ruby-vips (>= 2.0.17, < 3)
+    importmap-rails (2.2.2)
+      actionpack (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      railties (>= 6.0.0)
     io-console (0.8.1)
     irb (1.15.3)
       pp (>= 0.6.0)
@@ -195,6 +199,16 @@ GEM
       logger
     mini_mime (1.1.5)
     minitest (5.26.1)
+    mission_control-jobs (1.1.0)
+      actioncable (>= 7.1)
+      actionpack (>= 7.1)
+      activejob (>= 7.1)
+      activerecord (>= 7.1)
+      importmap-rails (>= 1.2.1)
+      irb (~> 1.13)
+      railties (>= 7.1)
+      stimulus-rails
+      turbo-rails
     msgpack (1.8.0)
     net-http (0.7.0)
       uri
@@ -433,6 +447,7 @@ DEPENDENCIES
   jwt
   kamal
   letter_opener
+  mission_control-jobs
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)

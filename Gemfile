@@ -32,6 +32,9 @@ gem "stimulus-rails"
 # Media handling
 gem "image_processing", "~> 1.2"
 
+# Some dashboard engines
+gem "mission_control-jobs"
+
 # API
 gem "jwt"
 gem "jbuilder"
