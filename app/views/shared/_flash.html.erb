@@ -1,24 +1,20 @@
 <!-- Flash Messages -->
 <% if notice = flash[:notice] || flash[:alert] %>
-    <div class="flash alert alert-error mb-4 shadow-lg" role="alert" data-controller="element-removal" data-action="animationend->element-removal#remove">
-        <% if flash[:alert] %>
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-        <% else %>
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-        <% end %>
-        <span><%= notice %></span>
-    </div>
+  <div class="flash alert mb-4 shadow-lg <%= flash[:alert] ? 'alert-error' : 'alert-success' %>" role="alert" data-controller="element-removal" data-action="animationend->element-removal#remove">
+    <%= image_tag flash[:alert] ? "circle-x.svg" : "circle-check.svg", class: "w-6 h-6" %>
+    <span><%= notice %></span>
+  </div>
 <% end %>
 
 <style>
 .flash {
-    max-width: 600px;
-    display: flex;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 10;
-    animation: appear-then-fade 3s 300ms both;
+  max-width: 600px;
+  display: flex;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  animation: appear-then-fade 3s 300ms both;
 }
 
 @keyframes appear-then-fade {

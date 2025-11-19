@@ -7,6 +7,7 @@
     "setup": "./bin/setup",
     "build": "bun bun.config.js",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
+    "format": "rubocop --fix",
     "icon:download": "ruby ./script/icon_download.rb"
   },
   "dependencies": {
