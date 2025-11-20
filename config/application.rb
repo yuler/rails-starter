@@ -24,9 +24,9 @@ module RailsStarter
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Jobs dashboard
-    config.mission_control.http_basic_auth_enabled = false
-    config.mission_control.http_basic_auth_user = ENV.fetch("JOBS_DASHBOARD_USERNAME", "admin")
-    config.mission_control.http_basic_auth_password = ENV.fetch("JOBS_DASHBOARD_PASSWORD", "123456")
+    # Mission dashboard
+    config.mission_control.jobs.http_basic_auth_user = ENV.fetch("MISSION_DASHBOARD_USERNAME", "admin")
+    config.mission_control.jobs.http_basic_auth_password = ENV.fetch("MISSION_DASHBOARD_PASSWORD", "123456")
+    config.mission_control.jobs.base_controller_class = "MissionBaseController"
   end
 end
