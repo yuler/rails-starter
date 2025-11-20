@@ -64,11 +64,13 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: ENV.fetch("SITE_DOMAIN") { "localhost:3000" } }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
-    port: ENV.fetch("SMTP_PORT", 587),
+    address: ENV.fetch("SMTP_ADDRESS", nil),
+    port: ENV.fetch("SMTP_PORT", nil),
+    domain: ENV.fetch("SMTP_DOMAIN", nil),
     user_name: ENV.fetch("SMTP_USERNAME", nil),
     password: ENV.fetch("SMTP_PASSWORD", nil),
-    tls: ENV.fetch("SMTP_TLS_ENABLED", true) == "true"
+    authentication:  "plain",
+    ssl: ENV.fetch("SMTP_SSL_ENABLED", true) == "true"
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
