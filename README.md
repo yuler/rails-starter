@@ -10,6 +10,7 @@ An opinionated template for rapidly starting new Rails project
 - Includes api controllers with JWT authentication
 - Includes [Faraday](https://github.com/lostisland/faraday) for making third-party service requests; see an example in [github_client.rb](./lib/github_client.rb)
 - Includes [letter_opener](https://github.com/ryanb/letter_opener) for email preview in development
+- Includes [mission_control-jobs](https://github.com/rails/mission_control-jobs) for background jobs dashboard
 - Add [script/icon_download](./script/icon_download.rb) quick download from [lucide](https://lucide.dev)
 
 ## 🛠️ Getting Started
