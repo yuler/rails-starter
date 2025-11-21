@@ -13,6 +13,7 @@ x-rails-env: &rails_env
   SECRET_KEY_BASE: ${SECRET_KEY_BASE:-e84aa0d3f501eaeb64b6c4ddbb6ba2d27f25bf980b3f855e9b525dc80fd65fbdfdf46bdee5c0de6cf51642f332e030ef1afc17f0788af447a16cacb789b6e868}
   DB_HOST: db
   DB_PORT: 5432
+  WEB_PORT: ${WEB_PORT:-3000}
 
 services:
   web:
@@ -20,7 +21,7 @@ services:
     volumes:
       - rails-storage:/rails/storage
     ports:
-      - 3000:3000
+      - ${WEB_PORT:-3000}:3000
     restart: unless-stopped
     env_file:
       - .env
