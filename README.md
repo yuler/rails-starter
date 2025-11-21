@@ -20,8 +20,30 @@ gh repo create <your_project_name> --template yuler/rails-starter --private --cl
 # or
 git clone git@github.com:yuler/rails-starter.git <your_project_name>
 cd <your_project_name>
+cp .env.example .env # change the configuration
 bin/setup
 bin/dev
+```
+
+## 🚀 Deployment Guide
+
+### Use docker compose
+
+```bash
+# whatever directory you want
+cd ~/docker-apps/rails-starter
+# Download docker compose.yml exmaple file
+curl -o compose.yml https://raw.githubusercontent.com/yuler/rails-starter/main/compose.example.yml
+# Download .env example file
+curl -o .env https://raw.githubusercontent.com/yuler/rails-starter/main/.env
+# run jobs worker
+docker compose pull
+docker compose build
+docker compose up -d
+# update
+docker compose pull
+docker compose build
+docker compose up --no-deps -d web worker
 ```
 
 ## 🚂 Other rails templates

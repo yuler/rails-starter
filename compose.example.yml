@@ -1,0 +1,69 @@
+# ===========================================================================
+# Example Docker Compose file
+# ===========================================================================
+
+x-db-env: &db_env
+  DB_USERNAME: ${DB_USERNAME:-postgres}
+  DB_PASSWORD: ${DB_PASSWORD:-postgres}
+  DB_NAME: ${DB_NAME:-rails_starter_production}
+  DB_NAME_CACHE: ${DB_NAME_CACHE:-rails_starter_production_cache}
+  DB_NAME_QUEUE: ${DB_NAME_QUEUE:-rails_starter_production_queue}
+  DB_NAME_CABLE: ${DB_NAME_CABLE:-rails_starter_production_cable}
+
+x-rails-env: &rails_env
+  <<: *db_env
+  # `rails secret` or `openssl rand -hex 64` generate a random secret key
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE:-e84aa0d3f501eaeb64b6c4ddbb6ba2d27f25bf980b3f855e9b525dc80fd65fbdfdf46bdee5c0de6cf51642f332e030ef1afc17f0788af447a16cacb789b6e868}
+  DB_HOST: db
+  DB_PORT: 5432
+
+services:
+  web:
+    image: ghcr.io/yuler/rails-starter:latest
+    volumes:
+      - rails-storage:/rails/storage
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      <<: *rails_env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - rails_starter_net
+
+  worker:
+    image: ghcr.io/yuler/rails-starter:latest
+    command: bin/jobs
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      <<: *rails_env
+    networks:
+      - rails_starter_net
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      <<: *db_env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$DB_USERNAME -d $$DB_NAME" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rails_starter_net
+
+volumes:
+  rails-storage:
+  postgres-data:
+
+networks:
+  rails_starter_net:
+    driver: bridge
