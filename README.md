@@ -36,11 +36,11 @@ cd ~/docker-apps/rails-starter
 curl -o compose.yml https://raw.githubusercontent.com/yuler/rails-starter/main/compose.example.yml
 # Download .env example file
 curl -o .env https://raw.githubusercontent.com/yuler/rails-starter/main/.env.example
-# run jobs worker
+# Start
 docker compose pull
 docker compose build
 docker compose up -d
-# update
+# Update
 docker compose pull
 docker compose build
 docker compose up --no-deps -d web worker

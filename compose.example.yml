@@ -3,12 +3,9 @@
 # ===========================================================================
 
 x-db-env: &db_env
-  DB_USERNAME: ${DB_USERNAME:-postgres}
-  DB_PASSWORD: ${DB_PASSWORD:-postgres}
-  DB_NAME: ${DB_NAME:-rails_starter_production}
-  DB_NAME_CACHE: ${DB_NAME_CACHE:-rails_starter_production_cache}
-  DB_NAME_QUEUE: ${DB_NAME_QUEUE:-rails_starter_production_queue}
-  DB_NAME_CABLE: ${DB_NAME_CABLE:-rails_starter_production_cable}
+  POSTGRES_USER: ${DB_USERNAME:-postgres}
+  POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+  POSTGRES_DB: ${DB_NAME:-rails_starter_production}
 
 x-rails-env: &rails_env
   <<: *db_env
@@ -25,6 +22,8 @@ services:
     ports:
       - 3000:3000
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       <<: *rails_env
     depends_on:
@@ -40,6 +39,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
       <<: *rails_env
     networks:
@@ -53,7 +54,7 @@ services:
     environment:
       <<: *db_env
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $$DB_USERNAME -d $$DB_NAME" ]
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
       interval: 5s
       timeout: 5s
       retries: 5
