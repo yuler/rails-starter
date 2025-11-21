@@ -19,7 +19,7 @@ x-rails-env: &rails_env
 
 services:
   web:
-    image: ghcr.io/yuler/rails-starter:latest
+    image: ghcr.io/yuler/rails-starter:main
     volumes:
       - rails-storage:/rails/storage
     ports:
@@ -34,7 +34,7 @@ services:
       - rails_starter_net
 
   worker:
-    image: ghcr.io/yuler/rails-starter:latest
+    image: ghcr.io/yuler/rails-starter:main
     command: bin/jobs
     restart: unless-stopped
     depends_on:
