@@ -8,6 +8,7 @@ An opinionated template for rapidly starting new Rails project
 - Uses `jsbundling-rails`, `cssbundling-rails`, and Bun for frontend asset bundling
 - Includes authentication system via `rails generate authentication`
 - Includes api controllers with JWT authentication
+- Built-in [Accounts & Teams](./docs/accounts.md) system
 - Includes [Faraday](https://github.com/lostisland/faraday) for making third-party service requests; see an example in [github_client.rb](./lib/github_client.rb)
 - Includes [letter_opener](https://github.com/ryanb/letter_opener) for email preview in development
 - Includes [mission_control-jobs](https://github.com/rails/mission_control-jobs) for background jobs dashboard
