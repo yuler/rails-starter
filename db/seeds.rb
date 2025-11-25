@@ -8,4 +8,11 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.create!(email: "test@example.com", password: "password")
+# Create a default test user
+user_email = "test@example.com"
+user_password = "password"
+if User.find_by(email: user_email).nil?
+  User.create!(email: user_email, password: user_password)
+else
+  puts "User `#{user_email}` already exists"
+end

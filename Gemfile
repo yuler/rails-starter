@@ -13,8 +13,8 @@ gem "solid_queue"
 gem "solid_cable"
 
 # Drivers
-gem "pg", "~> 1.1"
-# gem "sqlite3", ">= 2.8"
+gem "sqlite3", ">= 2.8"
+# gem "pg", "~> 1.1"
 
 # Deployment
 gem "puma", ">= 5.0"
