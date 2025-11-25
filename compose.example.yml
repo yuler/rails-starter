@@ -35,6 +35,11 @@ services:
 
 volumes:
   rails-storage:
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: ${PWD}/storage
 
 networks:
   rails_starter_net:
