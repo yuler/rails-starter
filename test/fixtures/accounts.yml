@@ -1,11 +1,25 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one_account:
-  name: Account one
-  description: Account one description
-  user: one
+john_doe_personal_account:
+  name: John Doe's Account
+  description: personal account
+  kind: personal
+  user: john_doe
 
-two_account:
-  name: Account two
-  description: Account two description
-  user: two
+yuler_personal_account:
+  name: Yuler's Account
+  description: personal account
+  kind: personal
+  user: yuler
+
+john_doe_team_account_one:
+  name: John Doe's Team Account One
+  description: team account
+  kind: team
+  user: john_doe
+
+yuler_team_account_one:
+  name: Yuler's Team Account One
+  description: team account
+  kind: team
+  user: yuler

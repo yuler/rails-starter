@@ -4,6 +4,12 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resource :registration, only: [ :new, :create ]
 
+  resources :accounts do
+    scope module: :accounts do
+      resources :memberships, only: [ :index, :new, :create, :destroy ]
+    end
+  end
+
   # Jobs
   mount MissionControl::Jobs::Engine, at: "/jobs"
 

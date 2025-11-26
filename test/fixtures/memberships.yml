@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+membership_for_john_doe_team_account_one:
+  account: john_doe_team_account_one
+  user: john_doe
+  role: admin
+
+membership_for_yuler_team_account_one:
+  account: yuler_team_account_one
+  user: yuler
+  role: admin

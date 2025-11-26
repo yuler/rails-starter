@@ -16,10 +16,6 @@ gem "solid_cable"
 gem "sqlite3", ">= 2.8"
 # gem "pg", "~> 1.1"
 
-# Deployment
-gem "puma", ">= 5.0"
-gem "bootsnap", require: false
-
 # Assets
 gem "propshaft"
 gem "jsbundling-rails"
@@ -39,17 +35,19 @@ gem "mission_control-jobs"
 gem "jwt"
 gem "jbuilder"
 
-# Others
-gem "bcrypt", "~> 3.1.7"
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-
 # HTTP Clients
 gem "faraday"
 # gem "faraday-retry"
 # gem "faraday-multipart"
 # gem "faraday-follow_redirects"
 
-# Deploy
+# Others
+gem "bcrypt", "~> 3.1.7"
+gem "tzinfo-data", platforms: %i[ windows jruby ]
+
+# Deployment
+gem "puma", ">= 5.0"
+gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 

@@ -1,0 +1,23 @@
+<div class="min-h-screen max-w-5xl py-4 prose mx-auto">
+  <h1><%= @account.name %> Memberships</h1>
+  <p>This is the memberships index page, <code>accounts/memberships_controller#index</code> and <code>accounts/memberships/index.html.erb</code>.</p>
+
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @memberships.each do |membership| %>
+          <tr>
+            <td><%= membership.user.email %></td>
+            <td><%= membership.role %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

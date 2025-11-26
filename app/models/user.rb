@@ -1,14 +1,26 @@
 class User < ApplicationRecord
   has_secure_password
-  has_many :sessions, dependent: :destroy
+
   has_one :personal_account, class_name: "Account", dependent: :destroy
-  has_many :accounts, dependent: :destroy
+
+  has_many :memberships, dependent: :delete_all
+  has_many :accounts, through: :memberships
+
+  has_many :sessions, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   normalizes :email, with: ->(e) { e.strip.downcase }
 
   after_create :create_personal_account!
+
+  def create_team_account(**account_params)
+    transaction do
+      Account.create!(**account_params, kind: :team, user: self).tap do |account|
+        Membership.create!(account: account, user: self, role: :admin)
+      end
+    end
+  end
 
   private
     def create_personal_account!

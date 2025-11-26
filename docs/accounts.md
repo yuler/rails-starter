@@ -1,8 +1,11 @@
 # Accounts
 
+Accounts/Memberships/Users
+
 ## Overview
 
-The accounts system provides multi-tenancy support for the application. When a user is created, a personal (solo) account is automatically created for them.
+- The accounts system provides multi-tenancy support for the application. When a user is created, a personal (solo) account is automatically created for them.
+- Memberships
 
 ## Creating Account-Scoped Resources
 

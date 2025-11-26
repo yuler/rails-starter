@@ -26,16 +26,24 @@ module Authentication
 
     def resume_session
       Current.session ||= find_session_by_cookie
-      Current.account ||= find_account_by_cookie
     end
 
     def find_session_by_cookie
       Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
     end
 
-    def find_account_by_cookie
-      Account.find_by(id: cookies.signed[:account_id]) if cookies.signed[:account_id]
-    end
+    # def resume_account
+    #   Current.account ||= find_account_by_cookie
+    # end
+
+    # def find_account_by_cookie
+    #   Current.user.accounts.find_by(id: cookies.signed[:account_id]) if cookies.signed[:account_id]
+    # end
+
+    # def switch_to_account(account_id)
+    #   Current.account = Account.find(account_id)
+    #   cookies.signed.permanent[:account_id] = { value: account_id, httponly: true, same_site: :lax }
+    # end
 
     def request_authentication
       session[:return_to_after_authenticating] = request.url
@@ -47,19 +55,18 @@ module Authentication
     end
 
     def start_new_session_for(user)
-      # TODO: support switch to team account
-      account = user.personal_account
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         Current.session = session
-        Current.account = account
         cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
-        cookies.signed.permanent[:account_id] = { value: account.id, httponly: true, same_site: :lax }
+
+        # Current.account = user.personal_account
+        # cookies.signed.permanent[:account_id] = { value: user.personal_account.id, httponly: true, same_site: :lax }
       end
     end
 
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
-      cookies.delete(:account_id)
+      # cookies.delete(:account_id)
     end
 end
