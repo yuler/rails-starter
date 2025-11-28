@@ -24,11 +24,10 @@ class AccountsController < ApplicationController
 
   private
     def set_account
-      puts "params: #{params.inspect}"
-      if params[:account_id].present?
-        @account = Account.find(params[:account_id] || params[:id])
+      if account = Current.user.accounts.find_by(id: params[:account_id] || params[:id])
+        @account = account
       else
-        @account = Current.user.personal_account
+        redirect_to root_url, alert: "Account not found or inaccessible."
       end
     end
 

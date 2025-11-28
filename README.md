@@ -4,10 +4,9 @@ An opinionated template for rapidly starting new Rails project
 
 ## ✨ Features
 
-- Uses PostgreSQL instead of the default SQLite database
+- Includes authentication system via `rails generate authentication`
 - Uses `jsbundling-rails`, `cssbundling-rails`, and Bun for frontend asset bundling
 - Defaults to using `sqlite` as the database system, but you can easily switch to `postgres` by following the [Postgres setup guide](./docs/postgres.md).
-- Includes authentication system via `rails generate authentication`
 - Includes api controllers with JWT authentication
 - Built-in [Accounts & Teams](./docs/accounts.md) system
 - Includes [Faraday](https://github.com/lostisland/faraday) for making third-party service requests; see an example in [github_client.rb](./lib/github_client.rb)
