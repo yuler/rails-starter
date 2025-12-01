@@ -1,11 +1,12 @@
 # Accounts
 
-Accounts/Memberships/Users
+[Account] is an abstraction representing organizations, teams, or any group (such as a school, community, company, etc.).
 
 ## Overview
 
+- Accounts and Users are connected via the Memberships relationship.
 - The accounts system provides multi-tenancy support for the application. When a user is created, a personal (solo) account is automatically created for them.
-- Memberships
+- Resources should be associated with specific Accounts and their Memberships.
 
 ## Creating Account-Scoped Resources
 
