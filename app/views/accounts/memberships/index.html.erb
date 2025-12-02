@@ -1,5 +1,8 @@
 <div class="min-h-screen max-w-5xl py-4 prose mx-auto">
-  <h1><%= @account.name %> Memberships</h1>
+  <div class="flex justify-between items-center">
+    <h1><%= @account.name %> Memberships</h1>
+    <%= link_to "Invite Member", new_account_invitation_path(@account), class: "btn btn-primary" %>
+  </div>
   <p>This is the memberships index page, <code>accounts/memberships_controller#index</code> and <code>accounts/memberships/index.html.erb</code>.</p>
 
   <div class="overflow-x-auto">

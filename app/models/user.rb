@@ -14,6 +14,10 @@ class User < ApplicationRecord
 
   after_create :create_personal_account!
 
+  def display_name
+    email.split("@").first
+  end
+
   def create_team_account(**account_params)
     transaction do
       Account.create!(**account_params, kind: :team, user: self).tap do |account|

@@ -1,6 +1,14 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: [ :show, :update, :destroy ]
 
+  def index
+    @accounts = Current.user.accounts
+  end
+
+  def show
+    @account = Account.find(params[:id])
+  end
+
   def new
     @account = Account.new
   end
