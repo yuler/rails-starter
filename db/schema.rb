@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_01_094824) do
-  create_table "account_invitations", force: :cascade do |t|
-    t.integer "account_id", null: false
+ActiveRecord::Schema[8.1].define(version: 2025_12_08_102012) do
+  create_table "account_invitations", id: :uuid, force: :cascade do |t|
+    t.uuid "account_id", null: false
     t.datetime "created_at", null: false
     t.string "email", null: false
-    t.integer "invited_by_id"
+    t.uuid "invited_by_id"
     t.string "role"
     t.string "token", null: false
     t.datetime "updated_at", null: false
@@ -25,28 +25,28 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_01_094824) do
     t.index ["token"], name: "index_account_invitations_on_token", unique: true
   end
 
-  create_table "accounts", force: :cascade do |t|
+  create_table "accounts", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
     t.integer "kind", default: 0, null: false
     t.string "name"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.uuid "user_id", null: false
     t.index ["name"], name: "index_accounts_on_name", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
-  create_table "active_storage_attachments", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+  create_table "active_storage_attachments", id: :uuid, force: :cascade do |t|
+    t.uuid "blob_id", null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
-    t.bigint "record_id", null: false
+    t.uuid "record_id", null: false
     t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", id: :uuid, force: :cascade do |t|
     t.bigint "byte_size", null: false
     t.string "checksum"
     t.string "content_type"
@@ -58,41 +58,41 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_01_094824) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+  create_table "active_storage_variant_records", id: :uuid, force: :cascade do |t|
+    t.uuid "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "invite_codes", force: :cascade do |t|
+  create_table "invite_codes", id: :uuid, force: :cascade do |t|
     t.string "code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_invite_codes_on_code", unique: true
   end
 
-  create_table "memberships", force: :cascade do |t|
-    t.integer "account_id", null: false
+  create_table "memberships", id: :uuid, force: :cascade do |t|
+    t.uuid "account_id", null: false
     t.datetime "created_at", null: false
     t.string "role", default: "member", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.uuid "user_id", null: false
     t.index ["account_id", "user_id"], name: "index_memberships_on_account_id_and_user_id", unique: true
     t.index ["account_id"], name: "index_memberships_on_account_id"
     t.index ["role"], name: "index_memberships_on_role"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
+  create_table "sessions", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
     t.datetime "updated_at", null: false
     t.string "user_agent"
-    t.integer "user_id", null: false
+    t.uuid "user_id", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "password_digest", null: false

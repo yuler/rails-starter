@@ -14,14 +14,6 @@ development:
   primary: &primary_development
     <<: *default
     database: <%= ENV.fetch("DB_NAME", "storage/development.sqlite3") %>
-  cache:
-    <<: *primary_development
-    database: <%= ENV.fetch("DB_NAME_CACHE", "storage/development_cache.sqlite3") %>
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_development
-    database: <%= ENV.fetch("DB_NAME_QUEUE", "storage/development_queue.sqlite3") %>
-    migrations_paths: db/queue_migrate
   cable:
     <<: *primary_development
     database: <%= ENV.fetch("DB_NAME_CABLE", "storage/development_cable.sqlite3") %>

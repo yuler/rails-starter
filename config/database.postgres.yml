@@ -27,14 +27,6 @@ development:
     password: <%= ENV.fetch("DB_PASSWORD", "postgres") %>
     host: <%= ENV.fetch("DB_HOST", "localhost") %>
     port: <%= ENV.fetch("DB_PORT", 5432) %>
-  cache:
-    <<: *primary_development
-    database: <%= ENV.fetch("DB_NAME_CACHE", "rails_starter_development_cache") %>
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_development
-    database: <%= ENV.fetch("DB_NAME_QUEUE", "rails_starter_development_queue") %>
-    migrations_paths: db/queue_migrate
   cable:
     <<: *primary_development
     database: <%= ENV.fetch("DB_NAME_CABLE", "rails_starter_development_cable") %>
