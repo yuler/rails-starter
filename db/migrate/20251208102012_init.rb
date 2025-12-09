@@ -25,6 +25,16 @@ class Init < ActiveRecord::Migration[8.1]
       t.index [ "user_id" ], name: "index_accounts_on_user_id"
     end
 
+    create_table "action_text_rich_texts", id: :uuid, force: :cascade do |t|
+      t.text "body"
+      t.datetime "created_at", null: false
+      t.string "name", null: false
+      t.uuid "record_id", null: false
+      t.string "record_type", null: false
+      t.datetime "updated_at", null: false
+      t.index [ "record_type", "record_id", "name" ], name: "index_action_text_rich_texts_uniqueness", unique: true
+    end
+
     create_table "active_storage_attachments", id: :uuid, force: :cascade do |t|
       t.uuid "blob_id", null: false
       t.datetime "created_at", null: false

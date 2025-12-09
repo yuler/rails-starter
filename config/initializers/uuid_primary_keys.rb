@@ -1,5 +1,5 @@
 # Automatically use UUID type for all binary(16) columns and generate defaults
-
+# refs: https://github.com/basecamp/fizzy/blob/49c4f2adc6069d8e58f3091a797e9182d85ebbb6/config/initializers/uuid_primary_keys.rb
 module UuidPrimaryKeyDefault
   def load_schema!
     define_uuid_primary_key_pending_default

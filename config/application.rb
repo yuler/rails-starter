@@ -14,7 +14,7 @@ module RailsStarter
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
+    config.autoload_lib(ignore: %w[assets tasks rails_ext])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -23,6 +23,11 @@ module RailsStarter
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Use UUID primary keys for all new tables
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
 
     # Mission dashboard
     config.mission_control.jobs.http_basic_auth_user = ENV.fetch("MISSION_DASHBOARD_USERNAME", "admin")

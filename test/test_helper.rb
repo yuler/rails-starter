@@ -15,6 +15,8 @@ module ActiveSupport
   end
 end
 
+# Ensure fixtures are always "older" than runtime records
+# refs: https://github.com/basecamp/fizzy/blob/49c4f2adc6069d8e58f3091a797e9182d85ebbb6/test/test_helper.rb#L81-L159
 module FixturesTestHelper
   extend ActiveSupport::Concern
 
