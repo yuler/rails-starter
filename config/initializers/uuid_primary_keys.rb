@@ -21,7 +21,15 @@ module UuidPrimaryKeyDefault
 
     PendingUuidDefault = Struct.new(:name) do
       def apply_to(attribute_set)
-        attribute_set[name] = attribute_set[name].with_user_default(-> { ActiveRecord::Type::Uuid.generate })
+        # Use the appropriate UUID type based on the adapter
+        uuid_type = ActiveRecord::Base.connection.adapter_name.downcase
+        generator = case uuid_type
+        when "postgresql"
+          -> { ActiveRecord::Type::PgUuid.generate }
+        else
+          -> { ActiveRecord::Type::Uuid.generate }
+        end
+        attribute_set[name] = attribute_set[name].with_user_default(generator)
       end
     end
 end
@@ -94,23 +102,16 @@ end
 module PgsqlUuidAdapter
   extend ActiveSupport::Concern
 
-  # Override lookup_cast_type to recognize uuid as UUID type
+  # Override lookup_cast_type to use our custom PgUuid type instead of native UUID type
   def lookup_cast_type(sql_type)
     if sql_type == "uuid"
-      ActiveRecord::Type.lookup(:uuid, adapter: :postgresql)
-    else
-      super
-    end
-  end
-
-  # Override fetch_type_metadata to preserve UUID type
-  def fetch_type_metadata(sql_type, oid: nil, fmod: nil)
-    if sql_type == "uuid"
-      simple_type = ActiveRecord::ConnectionAdapters::SqlTypeMetadata.new(
-        sql_type: sql_type,
-        type: :uuid
-      )
-      ActiveRecord::ConnectionAdapters::PostgreSQL::TypeMetadata.new(simple_type, oid: oid, fmod: fmod)
+      p "--------------------------------"
+      p "PgsqlUuidAdapter.lookup_cast_type: uuid"
+      p "--------------------------------"
+      type = ActiveRecord::Type.lookup(:uuid, adapter: :postgresql)
+      p "Found type: #{type.class}"
+      p "--------------------------------"
+      type
     else
       super
     end
@@ -156,6 +157,9 @@ ActiveSupport.on_load(:active_record_sqlite3adapter) do
 end
 
 ActiveSupport.on_load(:active_record_postgresqladapter) do
+  p "--------------------------------"
+  p "active_record_postgresqladapter"
+  p "--------------------------------"
   ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(PgsqlUuidAdapter)
   ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaDumper.prepend(SchemaDumperUuidType)
 end

@@ -44,8 +44,14 @@ module ActiveRecord
       BASE36_LENGTH = 25 # 36^25 > 2^128
 
       def self.generate
+        p "--------------------------------"
+        p "PgUuid.generate"
+        p "--------------------------------"
         uuid = SecureRandom.uuid_v7
         hex = uuid.delete("-")
+        p "hex: #{hex}"
+        p "normalize_base36: #{normalize_base36(hex.to_i(16))}"
+        p "--------------------------------"
         normalize_base36(hex.to_i(16))
       end
 
@@ -74,7 +80,18 @@ module ActiveRecord
       end
 
       def cast(value)
-        value
+        p "cast #{value}"
+        return nil if value.nil?
+        return value if value.is_a?(String) && value.length == BASE36_LENGTH && value.match?(/\A[0-9a-z]+\z/)
+
+        # If it's a UUID format (with dashes), convert to base36
+        if value.to_s.match?(/\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i)
+          hex = value.to_s.delete("-")
+          PgUuid.normalize_base36(hex.to_i(16))
+        else
+          # Assume it's already base36 or try to convert
+          value.to_s
+        end
       end
     end
   end
@@ -84,4 +101,9 @@ end
 ActiveRecord::Type.register(:uuid, ActiveRecord::Type::Uuid, adapter: :trilogy)
 ActiveRecord::Type.register(:uuid, ActiveRecord::Type::Uuid, adapter: :sqlite3)
 # Register PostgreSQL-specific UUID type (native UUID storage)
+p "--------------------------------"
+p "Registering PgUuid type for PostgreSQL"
+p "--------------------------------"
 ActiveRecord::Type.register(:uuid, ActiveRecord::Type::PgUuid, adapter: :postgresql)
+p "Registration complete"
+p "--------------------------------"

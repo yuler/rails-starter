@@ -3,16 +3,12 @@ default: &default
     - polling_interval: 1
       batch_size: 500
   workers:
-    - queues: "*"
+    - queues: [ "default", "solid_queue_recurring", "backend", "webhooks" ]
       threads: 3
-      processes: <%= ENV.fetch("JOB_CONCURRENCY", 1) %>
+      processes: <%= Integer(ENV.fetch("JOB_CONCURRENCY") { Concurrent.physical_processor_count }) %>
       polling_interval: 0.1
 
-development:
-  <<: *default
-
-test:
-  <<: *default
-
-production:
-  <<: *default
+development: *default
+test: *default
+staging: *default
+production: *default

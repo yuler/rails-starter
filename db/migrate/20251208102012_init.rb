@@ -1,6 +1,6 @@
 class Init < ActiveRecord::Migration[8.1]
   def change
-    create_table "account_invitations", id: :uuid, force: :cascade do |t|
+    create_table "account_invitations", id: :uuid do |t|
       t.uuid "account_id", null: false
       t.datetime "created_at", null: false
       t.string "email", null: false
@@ -14,7 +14,7 @@ class Init < ActiveRecord::Migration[8.1]
       t.index [ "token" ], name: "index_account_invitations_on_token", unique: true
     end
 
-    create_table "accounts", id: :uuid, force: :cascade do |t|
+    create_table "accounts", id: :uuid do |t|
       t.datetime "created_at", null: false
       t.string "description"
       t.integer "kind", default: 0, null: false
@@ -25,7 +25,7 @@ class Init < ActiveRecord::Migration[8.1]
       t.index [ "user_id" ], name: "index_accounts_on_user_id"
     end
 
-    create_table "action_text_rich_texts", id: :uuid, force: :cascade do |t|
+    create_table "action_text_rich_texts", id: :uuid do |t|
       t.text "body"
       t.datetime "created_at", null: false
       t.string "name", null: false
@@ -35,7 +35,7 @@ class Init < ActiveRecord::Migration[8.1]
       t.index [ "record_type", "record_id", "name" ], name: "index_action_text_rich_texts_uniqueness", unique: true
     end
 
-    create_table "active_storage_attachments", id: :uuid, force: :cascade do |t|
+    create_table "active_storage_attachments", id: :uuid do |t|
       t.uuid "blob_id", null: false
       t.datetime "created_at", null: false
       t.string "name", null: false
@@ -45,7 +45,7 @@ class Init < ActiveRecord::Migration[8.1]
       t.index [ "record_type", "record_id", "name", "blob_id" ], name: "index_active_storage_attachments_uniqueness", unique: true
     end
 
-    create_table "active_storage_blobs", id: :uuid, force: :cascade do |t|
+    create_table "active_storage_blobs", id: :uuid do |t|
       t.bigint "byte_size", null: false
       t.string "checksum"
       t.string "content_type"
@@ -57,20 +57,20 @@ class Init < ActiveRecord::Migration[8.1]
       t.index [ "key" ], name: "index_active_storage_blobs_on_key", unique: true
     end
 
-    create_table "active_storage_variant_records", id: :uuid, force: :cascade do |t|
+    create_table "active_storage_variant_records", id: :uuid do |t|
       t.uuid "blob_id", null: false
       t.string "variation_digest", null: false
       t.index [ "blob_id", "variation_digest" ], name: "index_active_storage_variant_records_uniqueness", unique: true
     end
 
-    create_table "invite_codes", id: :uuid, force: :cascade do |t|
+    create_table "invite_codes", id: :uuid do |t|
       t.string "code", null: false
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
       t.index [ "code" ], name: "index_invite_codes_on_code", unique: true
     end
 
-    create_table "memberships", id: :uuid, force: :cascade do |t|
+    create_table "memberships", id: :uuid do |t|
       t.uuid "account_id", null: false
       t.datetime "created_at", null: false
       t.string "role", default: "member", null: false
@@ -82,7 +82,7 @@ class Init < ActiveRecord::Migration[8.1]
       t.index [ "user_id" ], name: "index_memberships_on_user_id"
     end
 
-    create_table "sessions", id: :uuid, force: :cascade do |t|
+    create_table "sessions", id: :uuid do |t|
       t.datetime "created_at", null: false
       t.string "ip_address"
       t.datetime "updated_at", null: false
@@ -91,7 +91,7 @@ class Init < ActiveRecord::Migration[8.1]
       t.index [ "user_id" ], name: "index_sessions_on_user_id"
     end
 
-    create_table "users", id: :uuid, force: :cascade do |t|
+    create_table "users", id: :uuid do |t|
       t.datetime "created_at", null: false
       t.string "email", null: false
       t.string "password_digest", null: false
