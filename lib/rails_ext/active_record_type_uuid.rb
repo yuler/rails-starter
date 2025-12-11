@@ -29,7 +29,7 @@ end
 module ActiveRecord
   module Type
     # UUID type for MySQL and SQLite (stored as binary, displayed as base36)
-    class UuidBinary < Binary
+    class Uuid < Binary
       def self.generate
         UuidBase36.generate
       end
@@ -57,8 +57,8 @@ module ActiveRecord
 end
 
 # Register the UUID type for MySQL and SQLite adapters
-ActiveRecord::Type.register(:uuid, ActiveRecord::Type::UuidBinary, adapter: :trilogy)
-ActiveRecord::Type.register(:uuid, ActiveRecord::Type::UuidBinary, adapter: :sqlite3)
+ActiveRecord::Type.register(:uuid, ActiveRecord::Type::Uuid, adapter: :trilogy)
+ActiveRecord::Type.register(:uuid, ActiveRecord::Type::Uuid, adapter: :sqlite3)
 
 # Override PostgreSQL's OID::Uuid to use base36 format
 module PostgresUuidBase36
