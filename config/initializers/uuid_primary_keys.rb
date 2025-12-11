@@ -21,15 +21,7 @@ module UuidPrimaryKeyDefault
 
     PendingUuidDefault = Struct.new(:name) do
       def apply_to(attribute_set)
-        # Use the appropriate UUID type based on the adapter
-        uuid_type = ActiveRecord::Base.connection.adapter_name.downcase
-        generator = case uuid_type
-        when "postgresql"
-          -> { ActiveRecord::Type::PgUuid.generate }
-        else
-          -> { ActiveRecord::Type::Uuid.generate }
-        end
-        attribute_set[name] = attribute_set[name].with_user_default(generator)
+        attribute_set[name] = attribute_set[name].with_user_default(-> { ActiveRecord::Type::Uuid.generate })
       end
     end
 end
@@ -102,36 +94,36 @@ end
 module PgsqlUuidAdapter
   extend ActiveSupport::Concern
 
-  # Override lookup_cast_type to use our custom PgUuid type instead of native UUID type
+  # Override lookup_cast_type to use our custom PgUuid type for base36 conversion
   def lookup_cast_type(sql_type)
     if sql_type == "uuid"
-      p "--------------------------------"
-      p "PgsqlUuidAdapter.lookup_cast_type: uuid"
-      p "--------------------------------"
-      type = ActiveRecord::Type.lookup(:uuid, adapter: :postgresql)
-      p "Found type: #{type.class}"
-      p "--------------------------------"
-      type
+      ActiveRecord::Type::Uuid.new
     else
       super
-    end
-  end
-
-  class_methods do
-    def native_database_types
-      @native_database_types_with_uuid ||= super.merge(uuid: { name: "uuid" })
     end
   end
 end
 
-module SchemaDumperUuidType
-  # Map binary(16), blob(16), and uuid columns to :uuid type in schema.rb
+module SchemaDumperBinaryUuid
+  # Map binary(16) and blob(16) columns to :uuid type in schema.rb (MySQL/SQLite)
   def schema_type(column)
-    if column.sql_type == "binary(16)" || column.sql_type == "blob(16)" || column.sql_type == "uuid"
+    if column.sql_type == "binary(16)" || column.sql_type == "blob(16)"
       :uuid
     else
       super
     end
+  end
+end
+
+module SchemaDumperPgUuid
+  # Remove gen_random_uuid() default for UUID primary keys, use uuidv7() instead
+  def column_spec_for_primary_key(column)
+    spec = super
+    if column.type == :uuid
+      # Remove default function
+      spec.delete(:default)
+    end
+    spec
   end
 end
 
@@ -148,18 +140,15 @@ end
 
 ActiveSupport.on_load(:active_record_trilogyadapter) do
   ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter.prepend(MysqlUuidAdapter)
-  ActiveRecord::ConnectionAdapters::MySQL::SchemaDumper.prepend(SchemaDumperUuidType)
+  ActiveRecord::ConnectionAdapters::MySQL::SchemaDumper.prepend(SchemaDumperBinaryUuid)
 end
 
 ActiveSupport.on_load(:active_record_sqlite3adapter) do
   ActiveRecord::ConnectionAdapters::SQLite3Adapter.prepend(SqliteUuidAdapter)
-  ActiveRecord::ConnectionAdapters::SQLite3::SchemaDumper.prepend(SchemaDumperUuidType)
+  ActiveRecord::ConnectionAdapters::SQLite3::SchemaDumper.prepend(SchemaDumperBinaryUuid)
 end
 
 ActiveSupport.on_load(:active_record_postgresqladapter) do
-  p "--------------------------------"
-  p "active_record_postgresqladapter"
-  p "--------------------------------"
   ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(PgsqlUuidAdapter)
-  ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaDumper.prepend(SchemaDumperUuidType)
+  ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaDumper.prepend(SchemaDumperPgUuid)
 end
