@@ -22,6 +22,7 @@ gh repo create <your_project_name> --template yuler/rails-starter --private --cl
 git clone git@github.com:yuler/rails-starter.git <your_project_name>
 cd <your_project_name>
 cp .env.example .env # change the configuration
+bin/rails runner rename <your_app_name>
 bin/setup
 bin/dev
 ```
