@@ -1,54 +1,16 @@
-# SQLite3. Versions 3.8.0 and up are supported.
-#
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem "sqlite3"
-#
-default: &default
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+<%
+  adapter = RailsStarter.db_adapter
+  
+  database_file = {
+    "postgres" => "database.postgres.yml",
+    "sqlite" => "database.sqlite.yml",
+    "mysql" => "database.mysql.yml",
+  }
 
-development:
-  primary: &primary_development
-    <<: *default
-    database: <%= ENV.fetch("DB_NAME", "storage/development.sqlite3") %>
-  cache:
-    <<: *primary_development
-    database: <%= ENV.fetch("DB_NAME_CACHE", "storage/development_cache.sqlite3") %>
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_development
-    database: <%= ENV.fetch("DB_NAME_QUEUE", "storage/development_queue.sqlite3") %>
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_development
-    database: <%= ENV.fetch("DB_NAME_CABLE", "storage/development_cable.sqlite3") %>
-    migrations_paths: db/cable_migrate
+  unless database_file.key?(adapter)
+    raise "Unsupported DB_ADAPTER '#{adapter}'. Supported adapters: #{database_file.keys.join(', ')}"
+  end
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: <%= ENV.fetch("DB_NAME_TEST", "storage/test.sqlite3") %>
-
-# Store production database in the storage/ directory, which by default
-# is mounted as a persistent Docker volume in config/deploy.yml.
-production:
-  primary: &primary_production
-    <<: *default
-    database: <%= ENV.fetch("DB_NAME", "storage/production.sqlite3") %>
-  cache:
-    <<: *primary_production
-    database: <%= ENV.fetch("DB_NAME_CACHE", "storage/production_cache.sqlite3") %>
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: <%= ENV.fetch("DB_NAME_QUEUE", "storage/production_queue.sqlite3") %>
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: <%= ENV.fetch("DB_NAME_CABLE", "storage/production_cable.sqlite3") %>
-    migrations_paths: db/cable_migrate
+  config_path = File.join(__dir__, database_file[adapter])
+%>
+<%= ERB.new(File.read(config_path)).result %>

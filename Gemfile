@@ -14,7 +14,8 @@ gem "solid_cable"
 
 # Drivers
 gem "sqlite3", ">= 2.8"
-# gem "pg", "~> 1.1"
+gem "trilogy", "~> 2.9"
+gem "pg", "~> 1.5"
 
 # Assets
 gem "propshaft"

@@ -59,7 +59,7 @@ Rails.application.configure do
 
   # Action mailer
   config.action_mailer.perform_caching = false
-  config.action_mailer.deliver_later_queue_name = :high_priority
+  # config.action_mailer.deliver_later_queue_name = :high_priority
   config.action_mailer.default_options = { from: ENV.fetch("SMTP_USERNAME", nil) }
   config.action_mailer.default_url_options = { host: ENV.fetch("SITE_DOMAIN") { "localhost:3000" } }
   config.action_mailer.delivery_method = :smtp
