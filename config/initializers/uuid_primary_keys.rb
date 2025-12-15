@@ -93,15 +93,8 @@ end
 
 module PgsqlUuidAdapter
   extend ActiveSupport::Concern
-
-  # Override lookup_cast_type to use our custom PgUuid type for base36 conversion
-  def lookup_cast_type(sql_type)
-    if sql_type == "uuid"
-      ActiveRecord::Type::Uuid.new
-    else
-      super
-    end
-  end
+  # PostgreSQL uses native OID::Uuid type with PostgresUuidBase36 prepended
+  # (configured in lib/rails_ext/active_record_type_uuid.rb)
 end
 
 module SchemaDumperBinaryUuid
