@@ -21,7 +21,7 @@ class InviteCode < ApplicationRecord
   private
     def generate_code
       loop do
-        self.code = SecureRandom.hex(4)
+        self.code = Base32.generate
         break code unless self.class.exists?(code: code)
       end
     end
