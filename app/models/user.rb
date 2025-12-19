@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   normalizes :email, with: ->(e) { e.strip.downcase }
 
+  # TODO: Don't auto create, sometimes user can be invited to join an account
   after_create :create_personal_account!
 
   def display_name

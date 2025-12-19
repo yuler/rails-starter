@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_08_102012) do
+ActiveRecord::Schema[8.2].define(version: 2025_12_19_000000) do
   create_table "account_invitations", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.uuid "account_id", null: false
     t.datetime "created_at", null: false
@@ -30,9 +30,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_08_102012) do
     t.string "description"
     t.integer "kind", default: 0, null: false
     t.string "name"
+    t.string "slug", null: false
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.index ["name"], name: "index_accounts_on_name", unique: true
+    t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 

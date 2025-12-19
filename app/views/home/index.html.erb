@@ -13,15 +13,12 @@
   <p>Current User:</p>
   <%= debug Current.user.inspect %>
 
-  <% if false %>
-    <p>Current Account:</p>
-    <div class="flex gap-4 items-center">
-      Switch to other account: 
-      <%= button_to Current.account.name, nil, class: "btn btn-primary btn-sm", role: "button", disabled: Current.account.id == Current.user.personal_account.id %>
-      <% Current.user.accounts.each do |account| %>
-        <%= button_to account.name, account_path(account), method: :get, class: "btn btn-primary btn-sm", role: "button" %>
-      <% end %>
-    </div>
-    <%= debug Current.account.inspect %>
-  <% end %>
+  <p>Current Account:</p>
+  <div class="flex gap-4 items-center">
+    <span class="text-lg font-bold">Switch to other account:</span>
+    <% Current.user.accounts.each do |account| %>
+      <%= link_to account.name, root_path(script_name: account.slug_path), class: "btn btn-primary btn-sm", disabled: Current.account.id == account.id %>
+    <% end %>
+  </div>
+  <%= debug Current.account.inspect %>
 </div>

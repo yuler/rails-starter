@@ -1,4 +1,4 @@
-class Init < ActiveRecord::Migration[8.1]
+class Init < ActiveRecord::Migration[8.2]
   def change
     create_table "account_invitations", id: :uuid do |t|
       t.uuid "account_id", null: false
@@ -18,11 +18,13 @@ class Init < ActiveRecord::Migration[8.1]
       t.datetime "created_at", null: false
       t.string "description"
       t.integer "kind", default: 0, null: false
+      t.string "slug", null: false
       t.string "name"
       t.datetime "updated_at", null: false
       t.uuid "user_id", null: false
       t.index ["name"], name: "index_accounts_on_name", unique: true
       t.index ["user_id"], name: "index_accounts_on_user_id"
+      t.index ["slug"], name: "index_accounts_on_slug", unique: true
     end
 
     create_table "action_text_rich_texts", id: :uuid do |t|

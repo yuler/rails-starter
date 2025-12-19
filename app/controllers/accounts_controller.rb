@@ -1,4 +1,5 @@
 class AccountsController < ApplicationController
+  disallow_account_scope
   before_action :set_account, only: [ :show, :update, :destroy ]
 
   def index
