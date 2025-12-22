@@ -35,7 +35,7 @@ module Authentication
 
     def require_account
       unless Current.account.present?
-        redirect_to accounts_url
+        redirect_to main_app.session_accounts_url
       end
     end
 

@@ -7,17 +7,30 @@ class Account < ApplicationRecord
 
   has_one_attached :logo
 
-  enum :kind, %i[ personal team ], default: :personal
+  enum :kind, %i[ personal team ], default: :team
 
   before_create :generate_slug!
+
+  class << self
+    def create_with_owner(account:, owner:)
+      create!(**account, kind: :team).tap do |account|
+        account.memberships.create!(user: {}, role: :system)
+        account.memberships.create!(user: owner, role: :owner)
+      end
+    end
+  end
 
   # @return [String] the account's slug
   def slug_path
     "/#{AccountSlug.encode(slug)}"
   end
 
-  def create_membership!(user)
-    Membership.create!(user: user, account: self, role: :member)
+  def system_user
+    users.find_by!(role: :system)
+  end
+
+  def create_membership!(user, role: :member)
+    Membership.create!(user: user, account: self, role: role)
   end
 
   private

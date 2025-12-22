@@ -8,19 +8,9 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-# Create a default test user
-user_email = "john_doe@example.com"
+# john
+user_email = "john@example.com"
 user_password = "password"
-if User.find_by(email: user_email).nil?
-  User.create!(email: user_email, password: user_password)
-else
-  puts "User `#{user_email}` already exists"
-end
-
-# Create a team
-john_doe = User.find_by(email: user_email)
-if john_doe.accounts.find_by(name: "john_doe_team_one").nil?
-  john_doe.create_team_account(name: "john_doe_team_one", description: "john_doe's first team account")
-else
-  puts "Team account `john_doe_team_one` already exists"
-end
+john = User.create!(email: user_email, password: user_password)
+Account.create_with_owner(account: { name: "john_team_one" }, owner: john)
+Account.create_with_owner(account: { name: "john_team_two" }, owner: john)
