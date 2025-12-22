@@ -1,21 +1,17 @@
 class Account < ApplicationRecord
-  belongs_to :user
-
-  has_many :memberships, dependent: :delete_all
-  has_many :users, through: :memberships
+  has_many :users, dependent: :destroy
   has_many :account_invitations, dependent: :destroy
-
   has_one_attached :logo
-
-  enum :kind, %i[ personal team ], default: :team
 
   before_create :generate_slug!
 
+  validates :name, presence: true
+
   class << self
     def create_with_owner(account:, owner:)
-      create!(**account, kind: :team).tap do |account|
-        account.memberships.create!(user: {}, role: :system)
-        account.memberships.create!(user: owner, role: :owner)
+      create!(**account).tap do |account|
+        account.users.create!(role: :system, name: "System")
+        account.users.create!(**owner.with_defaults(role: :owner, verified_at: Time.current))
       end
     end
   end
@@ -27,10 +23,6 @@ class Account < ApplicationRecord
 
   def system_user
     users.find_by!(role: :system)
-  end
-
-  def create_membership!(user, role: :member)
-    Membership.create!(user: user, account: self, role: role)
   end
 
   private

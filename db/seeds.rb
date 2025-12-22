@@ -9,8 +9,6 @@
 #   end
 
 # john
-user_email = "john@example.com"
-user_password = "password"
-john = User.create!(email: user_email, password: user_password)
-Account.create_with_owner(account: { name: "john_team_one" }, owner: john)
-Account.create_with_owner(account: { name: "john_team_two" }, owner: john)
+john = Identity.create!(email: "john@example.com", password: "password")
+Account.create_with_owner(account: { name: "john_team_one" }, owner: { name: "John Doe", identity: john })
+Account.create_with_owner(account: { name: "john_team_two" }, owner: { name: "John Doe", identity: john })
