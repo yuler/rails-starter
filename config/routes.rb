@@ -12,9 +12,8 @@ Rails.application.routes.draw do
   end
 
   namespace :account do
-    resources :memberships, only: [ :index, :new, :create, :destroy ]
-    resources :invitations, only: [ :new, :create, :destroy ]
-    resource :menu, only: [ :show ]
+    resources :users
+    resources :invitations
   end
 
   resources :account_invitations, param: :token, only: [ :show ] do
