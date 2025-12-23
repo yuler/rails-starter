@@ -5,10 +5,10 @@ class Account::InvitationsController < ApplicationController
 
   def create
     @invitation = Current.account.account_invitations.new(invitation_params)
-    @invitation.invited_by = Current.user
+    @invitation.invited_by = Current.identity
 
     if @invitation.save
-      redirect_to account_memberships_path, notice: "Invitation sent."
+      redirect_to account_users_path, notice: "Invitation sent."
     else
       render :new, status: :unprocessable_entity
     end

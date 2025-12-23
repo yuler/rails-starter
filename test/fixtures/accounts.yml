@@ -3,23 +3,19 @@
 john_doe_personal_account:
   name: John Doe's Account
   description: personal account
-  kind: personal
   user: john_doe
 
 yuler_personal_account:
   name: Yuler's Account
   description: personal account
-  kind: personal
   user: yuler
 
 john_doe_team_account_one:
   name: John Doe's Team Account One
   description: team account
-  kind: team
   user: john_doe
 
 yuler_team_account_one:
   name: Yuler's Team Account One
   description: team account
-  kind: team
   user: yuler

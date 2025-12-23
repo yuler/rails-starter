@@ -8,9 +8,9 @@ class User < ApplicationRecord
 
   def deactivate
     transaction do
-      accesses.destroy_all
-      update! active: false, identity: nil
-      close_remote_connections
+      # accesses.destroy_all
+      # update! active: false, identity: nil
+      # close_remote_connections
     end
   end
 end
