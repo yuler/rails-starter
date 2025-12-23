@@ -4,6 +4,6 @@ class Account::UsersController < ApplicationController
   end
 
   def new
-    @user = @account.users.new
+    @user = Current.account.users.new
   end
 end

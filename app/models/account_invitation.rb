@@ -25,7 +25,8 @@ class AccountInvitation < ApplicationRecord
         Please sign in or sign up with the correct email.
       message
     end
-    account.users.create!(**Current.identity.with_defaults(role: :member, verified_at: Time.current))
+    # TODO:
+    # account.users.create!(**Current.identity.with_defaults(role: :member, verified_at: Time.current))
   end
 
   private

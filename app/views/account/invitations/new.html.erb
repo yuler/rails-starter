@@ -1,8 +1,8 @@
 <div class="min-h-screen max-w-5xl py-4 prose mx-auto">
   <h1>Invite a New Member</h1>
-  <p>Invite someone to join <strong><%= @account.name %></strong>.</p>
+  <p>Invite someone to join <strong><%= Current.account.name %></strong>.</p>
 
-  <%= form_with(model: [@account, @invitation], url: account_invitations_path(@account), class: "space-y-4") do |form| %>
+  <%= form_with(model: [Current.account, @invitation], url: account_invitations_path(Current.account), class: "space-y-4") do |form| %>
     <% if @invitation.errors.any? %>
       <div class="alert alert-error">
         <ul>
@@ -22,7 +22,7 @@
 
     <div class="form-control mt-6">
       <%= form.submit "Send Invitation", class: "btn btn-primary" %>
-      <%= link_to "Cancel", account_memberships_path(@account), class: "btn btn-ghost ml-2" %>
+      <%= link_to "Cancel", account_memberships_path(Current.account), class: "btn btn-ghost ml-2" %>
     </div>
   <% end %>
 </div>
