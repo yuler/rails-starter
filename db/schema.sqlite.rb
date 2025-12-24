@@ -31,7 +31,6 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_19_000000) do
     t.string "name", null: false
     t.string "slug", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_accounts_on_name", unique: true
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
   end
 

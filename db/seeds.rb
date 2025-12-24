@@ -10,5 +10,5 @@
 
 # john
 john = Identity.create!(email: "john@example.com", password: "password")
-Account.create_with_owner(account: { name: "john_team_one" }, owner: { name: "John Doe", identity: john })
-Account.create_with_owner(account: { name: "john_team_two" }, owner: { name: "John Doe", identity: john })
+Account.create_with_owner!(account: { name: "john_team_one" }, owner: { name: "John Doe", identity: john })
+Account.create_with_owner!(account: { name: "john_team_two" }, owner: { name: "John Doe", identity: john })

@@ -5,6 +5,7 @@ class Identity < ApplicationRecord
   has_many :users, dependent: :nullify
   has_many :accounts, through: :users
 
+  # TODO:?
   has_one_attached :avatar
 
   before_destroy :deactivate_users, prepend: true
@@ -25,6 +26,10 @@ class Identity < ApplicationRecord
   #     MagicLinkMailer.sign_in_instructions(magic_link).deliver_later
   #   end
   # end
+
+  def full_name
+    email.split("@").first
+  end
 
   private
     def deactivate_users

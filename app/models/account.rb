@@ -8,15 +8,16 @@ class Account < ApplicationRecord
   validates :name, presence: true
 
   class << self
-    def create_with_owner(account:, owner:)
-      create!(**account).tap do |account|
-        account.users.create!(role: :system, name: "System")
-        account.users.create!(**owner.with_defaults(role: :owner, verified_at: Time.current))
+    def create_with_owner!(account:, owner:)
+      transaction do
+        create!(**account).tap do |account|
+          account.users.create!(role: :system, name: "System")
+          account.users.create!(**owner.with_defaults(role: :owner, verified_at: Time.current))
+        end
       end
     end
   end
 
-  # @return [String] the account's slug
   def slug_path
     "/#{AccountSlug.encode(slug)}"
   end

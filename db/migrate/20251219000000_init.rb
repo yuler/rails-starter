@@ -20,7 +20,6 @@ class Init < ActiveRecord::Migration[8.2]
       t.string "slug", null: false
       t.string "name", null: false
       t.datetime "updated_at", null: false
-      t.index ["name"], name: "index_accounts_on_name", unique: true
       t.index ["slug"], name: "index_accounts_on_slug", unique: true
     end
 
