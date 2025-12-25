@@ -1,8 +1,6 @@
 module AccountSlug
-  LENGTH = 8
-  BASE32_CHARS = SecureRandom::BASE32_ALPHABET.join
-  PATTERN = /@([#{BASE32_CHARS}]{#{LENGTH}})/
-  PATH_INFO_MATCH = /\A(\/#{PATTERN})/
+  PATTERN = /([a-zA-Z0-9_-]+)/
+  PATH_INFO_MATCH = /\A(\/#{PATTERN}\/~\/)/
 
   class Extractor
     def initialize(app)
@@ -40,8 +38,8 @@ module AccountSlug
     end
   end
 
-  def self.decode(slug) slug.delete("@") end
-  def self.encode(slug) "@#{slug}" end
+  def self.decode(slug) slug end
+  def self.encode(slug) "#{slug}/~/" end
 end
 
 Rails.application.config.middleware.insert_after Rack::TempfileReaper, AccountSlug::Extractor
