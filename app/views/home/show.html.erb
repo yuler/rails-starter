@@ -4,7 +4,7 @@
 
   <div class="mt-4 flex gap-4 items-center">
     <span class="text-lg font-bold">You are signed in as <code><%= Current.identity.email %></code>.</span>
-    <%= button_to "Sign Out", session_path, class: "btn btn-error btn-sm", method: :delete %>
+    <%= button_to "Sign Out", session_path(script_name: nil), class: "btn btn-error btn-sm", method: :delete %>
   </div>
 
   <%# Debug user, account %>

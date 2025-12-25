@@ -1,21 +1,21 @@
 class Account::InvitationsController < ApplicationController
-  def new
-    @invitation = Current.account.account_invitations.new
+  def index
+    @account_invitation = Account::Invitation.new
+    @invitations = Current.account.invitations
   end
 
   def create
-    @invitation = Current.account.account_invitations.new(invitation_params)
-    @invitation.invited_by = Current.identity
+    @account_invitation = Current.account.invitations.new(**account_invitation_params)
 
-    if @invitation.save
-      redirect_to account_users_path, notice: "Invitation sent."
+    if @account_invitation.save
+      redirect_to account_invitations_path, notice: "Invitation sent."
     else
-      render :new, status: :unprocessable_entity
+      render :index, status: :unprocessable_entity
     end
   end
 
   private
-    def invitation_params
-      params.require(:account_invitation).permit(:email)
+    def account_invitation_params
+      params.require(:account_invitation).permit(:email).merge(invited_by: Current.user, account: Current.account)
     end
 end

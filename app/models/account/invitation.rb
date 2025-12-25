@@ -1,4 +1,4 @@
-class AccountInvitation < ApplicationRecord
+class Account::Invitation < ApplicationRecord
   after_create :send_invitation_email
 
   belongs_to :account
@@ -29,7 +29,6 @@ class AccountInvitation < ApplicationRecord
     # account.users.create!(**Current.identity.with_defaults(role: :member, verified_at: Time.current))
   end
 
-  private
     def send_invitation_email
       AccountMailer.with(invitation: self).invite.deliver_later
     end

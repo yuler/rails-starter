@@ -1,7 +1,7 @@
 <h1>You've been invited!</h1>
 
 <p>
-  <%= @invited_by.name %> has invited you to join <strong><%= Current.account.name %></strong> on <strong><%= ENV.fetch("SITE_NAME") %></strong>
+  <%= @invited_by.name %> has invited you to join <strong><%= @invitation.account.name %></strong> on <strong><%= ENV.fetch("SITE_NAME") %></strong>
 </p>
 
 <p>

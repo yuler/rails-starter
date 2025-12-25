@@ -3,21 +3,22 @@
     <h1><%= Current.account.name %> Memberships</h1>
     <%= link_to "Invite Member", new_account_invitation_path(Current.account), class: "btn btn-primary" %>
   </div>
-  <p>This is the memberships index page, <code>accounts/memberships_controller#index</code> and <code>accounts/memberships/index.html.erb</code>.</p>
 
   <div class="overflow-x-auto">
     <table class="table">
       <thead>
         <tr>
+          <th>Name</th>
           <th>Email</th>
           <th>Role</th>
         </tr>
       </thead>
       <tbody>
-        <% @memberships.each do |membership| %>
+        <% @users.each do |user| %>
           <tr>
-            <td><%= membership.user.email %></td>
-            <td><%= membership.role %></td>
+            <td><%= user.name %></td>
+            <td><%= user.identity&.email || "N/A" %></td>
+            <td><%= user.role.humanize %></td>
           </tr>
         <% end %>
       </tbody>

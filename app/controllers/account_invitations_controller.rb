@@ -6,7 +6,7 @@ class AccountInvitationsController < ApplicationController
 
   private
     def set_account_invitation
-      @account_invitation = AccountInvitation.find_by!(token: params[:token] || params[:account_invitation_token])
+      @account_invitation = Account::Invitation.find_by!(token: params[:token] || params[:account_invitation_token])
     rescue ActiveRecord::RecordNotFound
       redirect_to root_path, alert: "Invitation not found or expired"
     end

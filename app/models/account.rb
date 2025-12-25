@@ -1,6 +1,6 @@
 class Account < ApplicationRecord
   has_many :users, dependent: :destroy
-  has_many :account_invitations, dependent: :destroy
+  has_many :invitations, class_name: "Account::Invitation", dependent: :destroy
   has_one_attached :logo
 
   before_create :generate_slug!
