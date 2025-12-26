@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   namespace :account do
     resources :users
     resources :invitations
+    # TODO: joinable
   end
 
   resources :account_invitations, param: :token, only: [ :show ] do
