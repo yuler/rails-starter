@@ -14,7 +14,7 @@
 
         <!-- Form -->
         <%= form_with url: registration_path, class: "flex flex-col gap-4" do |form| %>
-          <%= render "shared/form_errors", model: @user %>
+          <%= render "shared/form_errors", model: @identity %>
 
           <!-- Email Field -->
           <label class="form-control">
@@ -25,7 +25,7 @@
               <span class="absolute inset-y-0 left-0 flex items-center pl-4">
                 <%= image_tag "email.svg", class: "w-5 h-5 text-gray-500 z-10" %>
               </span>
-              <%= form.email_field :email, value: @user&.email, required: true, autofocus: true, autocomplete: "username", placeholder: "Your email", class: "input input-bordered w-full pl-12" %>
+              <%= form.email_field :email, value: @identity&.email, autofocus: true, autocomplete: "username", placeholder: "Your email", class: "input input-bordered w-full pl-12" %>
             </div>
           </label>
 
@@ -38,7 +38,7 @@
               <span class="absolute inset-y-0 left-0 flex items-center pl-4">
                 <%= image_tag "lock.svg", class: "w-5 h-5 text-gray-500 z-10" %>
               </span>
-              <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Your password", maxlength: 72, class: "input input-bordered w-full pl-12" %>
+              <%= form.password_field :password, autocomplete: "current-password", placeholder: "Your password", maxlength: 72, class: "input input-bordered w-full pl-12" %>
             </div>
           </label>
 
@@ -51,7 +51,7 @@
               <span class="absolute inset-y-0 left-0 flex items-center pl-4">
                 <%= image_tag "rectangle-ellipsis.svg", class: "w-5 h-5 text-gray-500 z-10" %>
               </span>
-              <%= text_field_tag :invite_code, @invite_code, required: true, autocomplete: "off", placeholder: "Your invite code", class: "input input-bordered w-full pl-12" %>
+              <%= text_field_tag :invite_code, @invite_code, autocomplete: "off", placeholder: "Your invite code", class: "input input-bordered w-full pl-12" %>
             </div>
           </label>
 

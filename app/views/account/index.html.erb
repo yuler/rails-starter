@@ -13,7 +13,7 @@
     <tbody>
       <% @accounts.each do |account| %>
         <tr>
-          <td><%= link_to account.name, account_path(account) %></td>
+          <td><%= link_to account.name, root_path(script_name: account.slug_path) %></td>
           <td><%= account.description %></td>
           <td><%= account.created_at %></td>
           <td><%= account.updated_at %></td>

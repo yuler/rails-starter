@@ -1,6 +1,6 @@
 class Membership < ApplicationRecord
   belongs_to :account
-  belongs_to :user
+  belongs_to :user, optional: true
 
-  enum :role, %w[member admin].index_by(&:itself)
+  enum :role, %w[owner admin member system].index_by(&:itself)
 end

@@ -1,21 +1,21 @@
 class Api::V1::UsersController < Api::V1::BaseController
   def index
-    @users = User.all
-    render json: @users
+    @identities = Identity.all
+    render json: @identities
   end
 
   def show
-    @user = User.find(params[:id])
-    render json: @user
+    @identity = Identity.find(params[:id])
+    render json: @identity
   end
 
   def create
-    @user = User.create(user_params)
-    render json: @user
+    @identity = Identity.create(identity_params)
+    render json: @identity
   end
 
   private
-    def user_params
-      params.require(:user).permit(:email, :password)
+    def identity_params
+      params.require(:identity).permit(:email, :password)
     end
 end

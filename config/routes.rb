@@ -1,14 +1,20 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resource :session
   resources :passwords, param: :token
   resource :registration, only: [ :new, :create ]
 
-  resources :accounts do
-    scope module: :accounts do
-      resources :memberships, only: [ :index, :new, :create, :destroy ]
-      resources :invitations, only: [ :new, :create, :destroy ]
+  resource :session do
+    scope module: :sessions do
+      # resources :transfers
+      # resource :magic_link
+      resources :accounts
     end
+  end
+
+  namespace :account do
+    resources :users
+    resources :invitations
+    # TODO: joinable
   end
 
   resources :account_invitations, param: :token, only: [ :show ] do
@@ -30,7 +36,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "home#index"
+  root "home#show"
 
   namespace :api do
     namespace :v1, defaults: { format: :json } do
