@@ -2,7 +2,7 @@ class Account::Invitation < ApplicationRecord
   after_create :send_invitation_email
 
   belongs_to :account
-  belongs_to :invited_by, class_name: "User", optional: true
+  belongs_to :invited_by, class_name: "User"
 
   has_secure_token
 
@@ -29,7 +29,7 @@ class Account::Invitation < ApplicationRecord
     # account.users.create!(**Current.identity.with_defaults(role: :member, verified_at: Time.current))
   end
 
-    def send_invitation_email
-      AccountMailer.with(invitation: self).invite.deliver_later
-    end
+  def send_invitation_email
+    AccountMailer.invite(self).deliver_later
+  end
 end
