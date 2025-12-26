@@ -1,7 +1,7 @@
 module AccountSlug
   LENGTH = 8
   PATTERN = /([a-zA-Z0-9_-]+)/
-  PATH_INFO_MATCH = /\A(\/#{PATTERN}\/~\/)/
+  PATH_INFO_MATCH = /\A(\/#{PATTERN}\/~)/
 
   class Extractor
     def initialize(app)
