@@ -1,4 +1,6 @@
 class Account::InvitationsController < ApplicationController
+  before_action :ensure_admin, only: %i[ index create ]
+
   def index
     @account_invitation = Account::Invitation.new
     @invitations = Current.account.invitations

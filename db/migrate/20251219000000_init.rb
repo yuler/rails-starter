@@ -64,7 +64,7 @@ class Init < ActiveRecord::Migration[8.2]
     create_table "identities", id: :uuid do |t|
       t.datetime "created_at", null: false
       t.string "email", null: false
-      t.boolean "admin", default: false, null: false
+      t.boolean "staff", default: false, null: false
       t.string "password_digest", null: false
       t.datetime "updated_at", null: false
       t.index ["email"], name: "index_identities_on_email", unique: true

@@ -76,10 +76,10 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_19_000000) do
   end
 
   create_table "identities", id: :uuid, force: :cascade do |t|
-    t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "password_digest", null: false
+    t.boolean "staff", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_identities_on_email", unique: true
   end
