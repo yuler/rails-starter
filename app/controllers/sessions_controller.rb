@@ -7,16 +7,35 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if identity = Identity.authenticate_by(params.permit(:email, :password))
-      start_new_session_for identity
-      redirect_to after_authentication_url
+    if identity = Identity.find_by(email: email)
+      sign_in identity
     else
-      redirect_to new_session_path, alert: "Try another email address or password."
+      sign_up
     end
   end
 
   def destroy
     terminate_session
-    redirect_to new_session_path, status: :see_other
+    redirect_to new_session_path
   end
+
+  private
+    def email
+      params.expect(:email)
+    end
+
+    def sign_in(identity)
+      redirect_to_session_magic_link identity.send_magic_link(for: :sign_in)
+    end
+
+    def sign_up
+      signup = Signup.new(email: email)
+
+      if signup.valid?(:identity_creation)
+        magic_link = signup.create_identity
+        redirect_to_session_magic_link magic_link
+      else
+        redirect_to new_session_path, alert: "Something went wrong"
+      end
+    end
 end

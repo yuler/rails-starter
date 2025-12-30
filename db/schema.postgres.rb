@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_12_19_000000) do
+ActiveRecord::Schema[8.2].define(version: 2025_12_29_064041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -91,6 +91,18 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_19_000000) do
     t.index ["code"], name: "index_invite_codes_on_code", unique: true
   end
 
+  create_table "magic_links", id: :uuid, force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.uuid "identity_id", null: false
+    t.integer "purpose"
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_magic_links_on_code"
+    t.index ["expires_at"], name: "index_magic_links_on_expires_at"
+    t.index ["identity_id"], name: "index_magic_links_on_identity_id"
+  end
+
   create_table "sessions", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.uuid "identity_id", null: false
@@ -113,4 +125,6 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_19_000000) do
     t.index ["account_id", "role"], name: "index_users_on_account_id_and_role"
     t.index ["identity_id"], name: "index_users_on_identity_id"
   end
+
+  add_foreign_key "magic_links", "identities"
 end

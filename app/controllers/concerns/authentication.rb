@@ -7,6 +7,8 @@ module Authentication
     helper_method :authenticated?
 
     # before_action: set_sentry_context, TODO:
+
+    include Authentication::ViaMagicLink
   end
 
   class_methods do
@@ -22,7 +24,7 @@ module Authentication
 
     def disallow_account_scope(**options)
       skip_before_action :require_account, **options
-      before_action :redirect_tenanted_request, **options
+      before_action :redirect_accounted_request, **options
     end
 
     alias_method :skip_authentication, :allow_unauthenticated_access
@@ -53,13 +55,12 @@ module Authentication
       Session.find_signed(cookies.signed[:session_id])
     end
 
-    # TODO: for the APIs
     def authenticate_by_bearer_token
       if request.authorization.to_s.include?("Bearer")
         authenticate_or_request_with_http_token do |token|
-          # if identity = Identity.find_by_permissable_access_token(token, method: request.method)
-          #   Current.identity = identity
-          # end
+          if identity = Identity.find_by_permissable_access_token(token, method: request.method)
+            Current.identity = identity
+          end
         end
       end
     end
@@ -74,11 +75,11 @@ module Authentication
     end
 
     def redirect_authenticated_user
-      redirect_to main_app.root_url(script_name: nil) if authenticated?
+      redirect_to main_app.root_url, alert: "You are already signed in." if authenticated?
     end
 
-    def redirect_tenanted_request
-      redirect_to main_app.root_url(script_name: nil) if Current.account.present?
+    def redirect_accounted_request
+      redirect_to main_app.root_url, alert: "You are already in an account." if Current.account.present?
     end
 
     def start_new_session_for(identity)

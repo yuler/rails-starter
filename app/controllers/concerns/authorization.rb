@@ -17,19 +17,19 @@ module Authorization
   end
 
   private
-    def ensure_admin
-      head :forbidden unless Current.user.admin?
-    end
-
     def ensure_staff
       head :forbidden unless Current.identity.staff?
     end
 
+    def ensure_admin
+      head :forbidden unless Current.user.admin?
+    end
+
     def ensure_can_access_account
-      redirect_to session_accounts_path(script_name: nil) if Current.user.blank? || !Current.user.active?
+      head :forbidden if Current.user.blank? || !Current.user.active?
     end
 
     def redirect_existing_user
-      redirect_to root_path if Current.user
+      redirect_to root_path, alert: "You are already signed in." if Current.user
     end
 end
