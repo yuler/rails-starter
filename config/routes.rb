@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  # resources :passwords, param: :token
-  # resource :registration, only: [ :new, :create ]
 
   resource :session do
     scope module: :sessions do
