@@ -69,11 +69,7 @@ class Sessions::MagicLinksController < ApplicationController
     end
 
     def after_sign_in_url(magic_link)
-      if magic_link.for_sign_up?
-        new_signup_completion_path
-      else
-        after_authentication_url
-      end
+      after_authentication_url
     end
 
     def rate_limit_exceeded
