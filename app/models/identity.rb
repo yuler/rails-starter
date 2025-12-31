@@ -1,6 +1,4 @@
 class Identity < ApplicationRecord
-  has_secure_password
-
   has_many :magic_links, dependent: :destroy
   has_many :sessions, dependent: :destroy
   has_many :users, dependent: :nullify

@@ -75,7 +75,6 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_29_064041) do
   create_table "identities", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
-    t.string "password_digest", null: false
     t.boolean "staff", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_identities_on_email", unique: true

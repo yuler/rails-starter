@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
 
   def destroy
     terminate_session
-    redirect_to new_session_path
+    redirect_to new_session_path, status: :see_other
   end
 
   private
@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
         magic_link = signup.create_identity
         redirect_to_session_magic_link magic_link
       else
-        redirect_to new_session_path, alert: "Something went wrong"
+        redirect_to new_session_path, alert: signup.errors.full_messages.to_sentence
       end
     end
 end
