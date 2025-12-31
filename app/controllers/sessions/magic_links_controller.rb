@@ -34,7 +34,7 @@ class Sessions::MagicLinksController < ApplicationController
     end
 
     def authenticate(magic_link)
-      if ActiveSupport::SecurityUtils.secure_compare(email_pending_authentication || "", magic_link.identity.email)
+      if ActiveSupport::SecurityUtils.secure_compare(email_pending_authentication, magic_link.identity.email)
         sign_in magic_link
       else
         email_mismatch
