@@ -2,6 +2,6 @@
 
 # one:
 #   code: MyString
-#   identify: one
+#   identity: one
 #   expires_at: 2025-12-29
 #   purpose: 1
