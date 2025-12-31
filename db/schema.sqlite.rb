@@ -95,7 +95,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_29_064041) do
     t.uuid "identity_id", null: false
     t.integer "purpose"
     t.datetime "updated_at", null: false
-    t.index ["code"], name: "index_magic_links_on_code"
+    t.index ["code"], name: "index_magic_links_on_code", unique: true
     t.index ["expires_at"], name: "index_magic_links_on_expires_at"
     t.index ["identity_id"], name: "index_magic_links_on_identity_id"
   end
