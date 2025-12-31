@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RegistrationControllerTest < ActionDispatch::IntegrationTest
+class MagicLinkMailerTest < ActionMailer::TestCase
   # test "the truth" do
   #   assert true
   # end

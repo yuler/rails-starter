@@ -1,5 +1,3 @@
-<% password_digest = BCrypt::Password.create("password") %>
-
 john:
   name: John
   identity: john

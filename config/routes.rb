@@ -1,12 +1,10 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resources :passwords, param: :token
-  resource :registration, only: [ :new, :create ]
 
   resource :session do
     scope module: :sessions do
       # resources :transfers
-      # resource :magic_link
+      resource :magic_link
       resources :accounts
     end
   end
@@ -19,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :account_invitations, param: :token, only: [ :show ] do
     scope module: :account_invitations do
-      resource :accept, only: [ :show, :update ], controller: :acceptances
+      # resource :accept, only: [ :show, :update ], controller: :acceptances
     end
   end
 

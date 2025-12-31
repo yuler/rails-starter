@@ -43,7 +43,7 @@ gem "faraday"
 # gem "faraday-follow_redirects"
 
 # Others
-gem "bcrypt", "~> 3.1.7"
+# gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Deployment

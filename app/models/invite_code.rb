@@ -1,7 +1,7 @@
 class InviteCode < ApplicationRecord
   LENGTH = 6
 
-  before_create :generate_code
+  before_validation :generate_code, on: :create
 
   class << self
     def claim!(code)
@@ -22,8 +22,8 @@ class InviteCode < ApplicationRecord
 
   private
     def generate_code
-      loop do
-        self.code = Base32.generate(LENGTH)
+      self.code = loop do
+        code = Base32.generate(LENGTH)
         break code unless self.class.exists?(code:)
       end
     end
