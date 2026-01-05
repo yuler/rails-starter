@@ -2,9 +2,13 @@
 <html data-theme="light">
   <%= render "shared/head" %>
 
-  <body>
-    <%= render "shared/flash" %>
-
-    <%= yield %>
+  <body class="h-screen grid grid-rows-[auto_1fr_auto]">
+    <%= render "shared/header" %>
+    <main id="main">
+      <%= yield %>
+    </main>
+    <%= render "shared/footer" %>
   </body>
+
+  <%= render "shared/flash" %>
 </html>
