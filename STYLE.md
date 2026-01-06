@@ -68,38 +68,42 @@ class ExampleClass < ApplicationRecord
   # 2. Includes/extends
   include ConcernName
   
-  # 3. Associations
+  # 3. Attr related macros
+  attr_accessor :email, :identity
+  attr_reader :account, :user
+
+  # 4. Associations
   belongs_to :user
   has_many :posts, dependent: :destroy
   
-  # 4. Enums
+  # 5. Enums
   enum status: { active: 0, inactive: 1 }
   
-  # 5. Validations
+  # 6 Validations
+  # 6.1 before_validation 
+  before_validation :generate_code, on: :create
+  # 6.2 validates
   validates :name, presence: true
   
-  # 6. Callbacks
+  # 7. Callbacks, follow
   before_save :normalize_name
   
-  # 7. Scopes
+  # 8. Scopes
   scope :active, -> { where(status: :active) }
-  
-  # 8. Class methods
+  # 8.1 Class methods
   def self.find_by_identifier(id)
     # ...
   end
-  
-  # 9. Instance methods
+  # 8.2 Instance methods
   def active?
     status == "active"
   end
   
+  # 9. Private methods
   private
-  
-  # 10. Private methods
-  def normalize_name
-    # ...
-  end
+    def normalize_name
+      # ...
+    end
 end
 ```
 
@@ -228,7 +232,6 @@ When justified, it is fine to use services or form objects, but don't treat thos
 ```ruby
 Signup.new(email: email).create_identity
 ```
-
 
 ## Run async operations in jobs
 
