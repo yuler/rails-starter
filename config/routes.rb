@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resource :landing
 
   resource :session do
     scope module: :sessions do
@@ -34,7 +35,7 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "home#show"
+  root "landings#show"
 
   namespace :api do
     namespace :v1, defaults: { format: :json } do
