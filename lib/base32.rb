@@ -8,7 +8,9 @@ class Base32
     end
 
     def sanitize(input)
-      return if input.blank?
+      if input.blank?
+        return
+      end
 
       normalized = input.to_s.upcase
       # Substitute lookalike characters

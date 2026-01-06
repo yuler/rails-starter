@@ -6,13 +6,13 @@ class MagicLink < ApplicationRecord
 
   enum :purpose, %w[ sign_in sign_up ], prefix: :for, default: :sign_in
 
-  scope :active, -> { where(expires_at: Time.current...) }
-  scope :stale, -> { where(expires_at: ..Time.current) }
-
   before_validation :generate_code, on: :create
   before_validation :set_expiration, on: :create
 
   validates :code, uniqueness: true, presence: true
+
+  scope :active, -> { where(expires_at: Time.current...) }
+  scope :stale, -> { where(expires_at: ..Time.current) }
 
   class << self
     def consume(code)

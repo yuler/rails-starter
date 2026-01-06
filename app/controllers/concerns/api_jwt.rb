@@ -10,10 +10,14 @@ module ApiJwt
   end
 
   def authenticate_identity_from_jwt_token(token)
-    return nil if token.blank?
+    if token.blank?
+      return nil
+    end
 
     decoded_token = jwt_decode(token)
-    return nil unless decoded_token["identity_id"].present?
+    if !decoded_token["identity_id"].present?
+      return nil
+    end
 
     Identity.find_by(id: decoded_token["identity_id"])
   rescue JWT::DecodeError, JWT::ExpiredSignature

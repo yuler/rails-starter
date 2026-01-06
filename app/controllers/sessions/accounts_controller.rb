@@ -6,19 +6,18 @@ class Sessions::AccountsController < ApplicationController
   end
 
   def create
-    @account = Account.new(account_params)
+    @account = Account.create_with_owner(
+      account: account_params,
+      owner: {
+        name: Current.identity.full_name,
+        identity: Current.identity
+      }
+    )
 
-    if @account.invalid?
-      render :new, status: :unprocessable_entity
-    else
-      @account = Account.create_with_owner!(
-        account: account_params,
-        owner: {
-          name: Current.identity.full_name,
-          identity: Current.identity
-        }
-      )
+    if @account.persisted?
       redirect_to session_accounts_path
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
