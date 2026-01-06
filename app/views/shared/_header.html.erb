@@ -65,14 +65,18 @@
             <li class="menu-title">
               <span><%= Current.identity.email %></span>
             </li>
-            <li><a href="<%= my_accounts_url %>">My Accounts</a></li>
-            <li><a href="<%= sign_out_url %>" data-method="delete">Sign Out</a></li>
+            <li>
+              <%= link_to "My Accounts", my_accounts_path, class: "w-full #{'menu-active' if request.fullpath == my_accounts_path}" %>
+            </li>
+            <li>
+              <%= button_to "Sign Out", sign_out_path, method: :delete, class: "w-full" %>
+            </li>
           </ul>
         </div>
-      <% else %>
+      <% elsif request.fullpath == my_accounts_path %>
         <!-- Auth Buttons -->
         <div class="flex gap-2">
-          <a href="<%= sign_in_url %>" class="btn">Sign In</a>
+          <a href="<%= sign_in_path %>" class="btn">Sign In</a>
         </div>
       <% end %>
     </div>

@@ -1,10 +1,14 @@
 module AccountUrlHelper
-  def sign_in_url
+  def sign_in_path
     main_app.new_session_path(script_name: nil)
   end
 
-  def sign_out_url
-    main_app.new_session_path
+  def sign_out_path
+    main_app.session_path(script_name: nil)
+  end
+
+  def my_accounts_path
+    main_app.session_accounts_path(script_name: nil)
   end
 
   def my_accounts_url
