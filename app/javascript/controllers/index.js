@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AutoSubmitController from "./auto_submit_controller"
+application.register("auto-submit", AutoSubmitController)
+
 import ElementRemovalController from "./element_removal_controller"
 application.register("element-removal", ElementRemovalController)
 

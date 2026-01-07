@@ -8,7 +8,7 @@
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=3.4.5
+ARG RUBY_VERSION=3.4.7
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
@@ -16,7 +16,7 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
     ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
@@ -37,7 +37,7 @@ RUN apt-get update -qq && \
 
 ENV BUN_INSTALL=/usr/local/bun
 ENV PATH=/usr/local/bun/bin:$PATH
-ARG BUN_VERSION=1.2.18
+ARG BUN_VERSION=1.3.3
 RUN curl -fsSL https://bun.sh/install | bash -s -- "bun-v${BUN_VERSION}"
 
 # Install application gems

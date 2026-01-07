@@ -1,8 +1,12 @@
 # Accounts
 
+[Account] is an abstraction representing organizations, teams, or any group (such as a school, community, company, etc.).
+
 ## Overview
 
-The accounts system provides multi-tenancy support for the application. When a user is created, a personal (solo) account is automatically created for them.
+- Accounts and Users are connected via the Memberships relationship.
+- The accounts system provides multi-tenancy support for the application. When a user is created, a personal (solo) account is automatically created for them.
+- Resources should be associated with specific Accounts and their Memberships.
 
 ## Creating Account-Scoped Resources
 

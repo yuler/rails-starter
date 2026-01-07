@@ -47,11 +47,11 @@ class Api::V1::BaseController < ApplicationController
 
   private
     def require_api_authentication
-      current_user || render_json_unauthorized
+      current_identity || render_json_unauthorized
     end
 
-    def find_user_by_jwt_token
-      authenticate_user_from_jwt_token(extract_jwt_token)
+    def find_identity_by_jwt_token
+      authenticate_identity_from_jwt_token(extract_jwt_token)
     end
 
     def extract_jwt_token
@@ -63,7 +63,7 @@ class Api::V1::BaseController < ApplicationController
       params[:token]
     end
 
-    def current_user
-      @current_user ||= find_user_by_jwt_token
+    def current_identity
+      @current_identity ||= find_identity_by_jwt_token
     end
 end

@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby file: ".ruby-version"
 
 # Rails
-gem "rails", "~> 8.1.1"
+gem "rails", github: "rails/rails", branch: "main"
 
 # Rails solid database gems
 gem "solid_cache"
@@ -14,11 +14,8 @@ gem "solid_cable"
 
 # Drivers
 gem "sqlite3", ">= 2.8"
-# gem "pg", "~> 1.1"
-
-# Deployment
-gem "puma", ">= 5.0"
-gem "bootsnap", require: false
+gem "trilogy", "~> 2.9"
+gem "pg", "~> 1.6"
 
 # Assets
 gem "propshaft"
@@ -39,17 +36,19 @@ gem "mission_control-jobs"
 gem "jwt"
 gem "jbuilder"
 
-# Others
-gem "bcrypt", "~> 3.1.7"
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-
 # HTTP Clients
 gem "faraday"
 # gem "faraday-retry"
 # gem "faraday-multipart"
 # gem "faraday-follow_redirects"
 
-# Deploy
+# Others
+# gem "bcrypt", "~> 3.1.7"
+gem "tzinfo-data", platforms: %i[ windows jruby ]
+
+# Deployment
+gem "puma", ">= 5.0"
+gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 
@@ -57,6 +56,7 @@ group :development, :test do
   gem "dotenv"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "letter_opener"
+  gem "letter_opener_web"
   gem "bundler-audit", require: false
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false

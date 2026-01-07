@@ -1,21 +1,16 @@
 class User < ApplicationRecord
-  has_secure_password
-  has_many :sessions, dependent: :destroy
-  has_one :personal_account, class_name: "Account", dependent: :destroy
-  has_many :accounts, dependent: :destroy
+  include Role
 
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  belongs_to :account
+  belongs_to :identity, optional: true
 
-  normalizes :email, with: ->(e) { e.strip.downcase }
+  validates :name, presence: true
 
-  after_create :create_personal_account!
-
-  private
-    def create_personal_account!
-      account_name = "#{email}'s personal account"
-      account_description = "This is your personal account. Automatically created by the system."
-      account = Account.create!(name: account_name, description: account_description, kind: :personal, user: self)
-      self.personal_account = account
-      self.save!
+  def deactivate
+    transaction do
+      # accesses.destroy_all
+      # update! active: false, identity: nil
+      # close_remote_connections
     end
+  end
 end

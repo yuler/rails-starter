@@ -1,14 +1,10 @@
-<div class="min-h-screen flex items-center justify-center bg-linear-to-br from-cyan-200 via-purple-300 to-pink-300 p-4">
+<% @page_title = "Sign in" %>
+
+<div class="h-full flex items-center justify-center bg-linear-to-br p-4">
   <div class="w-full max-w-md">
     <!-- Card -->
     <div class="card bg-white backdrop-blur-sm shadow-2xl">
       <div class="card-body p-8">
-        <!-- Tabs -->
-        <div role="tablist" class="tabs tabs-box w-fit px-2">
-          <%= link_to "Sign in", new_session_path, role: "tab", class: "tab tab-active" %>
-          <%= link_to "Sign up", new_registration_path, role: "tab", class: "tab" %>
-        </div>
-
         <!-- Title -->
         <h2 class="text-3xl font-bold text-gray-900 mb-8">Sign in</h2>
 
@@ -26,24 +22,6 @@
               <%= form.email_field :email, required: true, autofocus: true, autocomplete: "username", placeholder: "Your email", value: params[:email], class: "input input-bordered w-full pl-12" %>
             </div>
           </label>
-
-          <!-- Password Field -->
-          <label class="form-control">
-            <div class="label">
-              <span class="label-text font-medium text-gray-700">Password</span>
-            </div>
-            <div class="relative mt-1">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-4">
-                <%= image_tag "lock.svg", class: "w-5 h-5 text-gray-500 z-10" %>
-              </span>
-              <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Your password", maxlength: 72, class: "input input-bordered w-full pl-12" %>
-            </div>
-          </label>
-
-          <!-- Forgot Password Link -->
-          <div class="text-right">
-            <%= link_to "Forgot password?", new_password_path, class: "link link-hover text-sm text-gray-600" %>
-          </div>
 
           <!-- Submit Button -->
           <div class="form-control mt-6">

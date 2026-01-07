@@ -25,9 +25,6 @@ Rails.application.configure do
     config.action_controller.perform_caching = false
   end
 
-  # Change to :null_store to avoid any caching.
-  config.cache_store = :memory_store
-
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
@@ -35,7 +32,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   # Use Letter Opener to preview emails in the browser.
-  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
 
   # Make template changes take effect immediately.
