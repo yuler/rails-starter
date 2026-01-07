@@ -10,7 +10,12 @@ class Account < ApplicationRecord
   class << self
     def create_with_owner(account:, owner:)
       transaction do
-        create!(**account).tap do |account|
+        new_account = create(**account)
+        unless new_account.persisted?
+          return new_account
+        end
+
+        new_account.tap do |account|
           account.users.create!(role: :system, name: "System")
           account.users.create!(**owner.with_defaults(role: :owner, verified_at: Time.current))
         end

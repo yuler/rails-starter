@@ -61,12 +61,12 @@
               </div>
             </div>
           </div>
-          <ul tabindex="-1" class="menu dropdown-content bg-base-100 rounded-box z-1 mt-3 w-50 p-2 shadow">
+          <ul tabindex="-1" class="menu dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
             <li class="menu-title">
               <span><%= Current.identity.email %></span>
             </li>
             <li>
-              <%= link_to my_accounts_path, class: "w-full #{'menu-active' if request.fullpath == my_accounts_path}" do %>
+              <%= link_to my_accounts_path, class: "w-full #{'menu-active' if current_page?(my_accounts_path)}" do %>
                 <%= image_tag 'users.svg', alt: '', class: 'h-4 w-4' %>
                 <span>My Accounts</span>
               <% end %>
@@ -80,7 +80,7 @@
             </li>
           </ul>
         </div>
-      <% elsif request.fullpath == my_accounts_path %>
+      <% elsif current_page?(my_accounts_path) %>
         <!-- Auth Buttons -->
         <div class="flex gap-2">
           <a href="<%= sign_in_path %>" class="btn">Sign In</a>

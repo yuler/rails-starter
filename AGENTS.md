@@ -39,7 +39,7 @@ PARALLEL_WORKERS=1 bin/rails test
 # Load fixture data
 bin/rails db:fixtures:load
 # Run migrations
-bin/rails db:migrate    
+bin/rails db:migrate
 # Drop, create, and load schema
 bin/rails db:reset
 # Drop, create, async schema to sqlite/pqsel/mysql schema
@@ -58,7 +58,7 @@ bin/kamal deploy
 
 ### Multi-Tenancy (URL-Based)
 
-Our uses **URL path-based multi-tenancy**:
+This project uses **URL path-based multi-tenancy**:
 - Each Account (tenant) has a unique `account_slug`
 - URLs are prefixed: `/{account_slug}/~/xxx/...`
 - Middleware (`AccountSlug::Extractor`) extracts the account ID from the URL and sets `Current.account`
