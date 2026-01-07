@@ -61,15 +61,22 @@
               </div>
             </div>
           </div>
-          <ul tabindex="-1" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+          <ul tabindex="-1" class="menu dropdown-content bg-base-100 rounded-box z-1 mt-3 w-50 p-2 shadow">
             <li class="menu-title">
               <span><%= Current.identity.email %></span>
             </li>
             <li>
-              <%= link_to "My Accounts", my_accounts_path, class: "w-full #{'menu-active' if request.fullpath == my_accounts_path}" %>
+              <%= link_to my_accounts_path, class: "w-full #{'menu-active' if request.fullpath == my_accounts_path}" do %>
+                <%= image_tag 'users.svg', alt: '', class: 'h-4 w-4' %>
+                <span>My Accounts</span>
+              <% end %>
             </li>
-            <li>
-              <%= button_to "Sign Out", sign_out_path, method: :delete, class: "w-full" %>
+           
+           <li>
+              <%= button_to sign_out_path, method: :delete, form_class: "flex", class: "link link-hover flex-1 flex items-center justify-start gap-2", data: { turbo: false } do %>
+                <%= image_tag 'log-out.svg', alt: '', class: 'h-4 w-4' %>
+                <span>Sign Out</span>
+              <% end %>
             </li>
           </ul>
         </div>
