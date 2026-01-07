@@ -36,7 +36,7 @@ module Authentication
     end
 
     def require_account
-      unless Current.account.present?
+      if !Current.account.present?
         redirect_to main_app.session_accounts_url(script_name: nil)
       end
     end
@@ -71,15 +71,19 @@ module Authentication
     end
 
     def after_authentication_url
-      session.delete(:return_to_after_authenticating) || main_app.root_url(script_name: nil)
+      session.delete(:return_to_after_authenticating) || main_app.home_url(script_name: nil)
     end
 
     def redirect_authenticated_user
-      redirect_to main_app.root_url, alert: "You are already signed in." if authenticated?
+      if authenticated?
+        redirect_to main_app.home_url, alert: "You are already signed in."
+      end
     end
 
     def redirect_accounted_request
-      redirect_to main_app.root_url, alert: "You are already in an account." if Current.account.present?
+      if Current.account.present?
+        redirect_to main_app.home_url, alert: "You are already in an account."
+      end
     end
 
     def start_new_session_for(identity)

@@ -26,10 +26,14 @@ module Authorization
     end
 
     def ensure_can_access_account
-      head :forbidden if Current.user.blank? || !Current.user.active?
+      if Current.user.blank? || !Current.user.active?
+        head :forbidden
+      end
     end
 
     def redirect_existing_user
-      redirect_to root_path, alert: "You are already signed in." if Current.user
+      if Current.user
+        redirect_to root_path, alert: "You are already signed in."
+      end
     end
 end

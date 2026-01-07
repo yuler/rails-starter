@@ -7,10 +7,10 @@ class Identity < ApplicationRecord
   # TODO:?
   has_one_attached :avatar
 
-  before_destroy :deactivate_users, prepend: true
-
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   normalizes :email, with: ->(value) { value.strip.downcase.presence }
+
+  before_destroy :deactivate_users, prepend: true
 
   # TODO:
   def self.find_by_permissable_access_token(token, method:)
@@ -32,7 +32,7 @@ class Identity < ApplicationRecord
   end
 
   def auto_create_account
-    Account.create_with_owner!(
+    Account.create_with_owner(
       account: {
         name: "#{full_name}'s Account"
       },

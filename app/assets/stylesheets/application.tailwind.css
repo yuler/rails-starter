@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "./reset.css";
+@import "./flash.css";
 
 @plugin "@tailwindcss/typography";
 
@@ -7,4 +9,25 @@
   themes: light --default, dark --prefersdark;
   /* refs: https://github.com/saadeghi/daisyui/issues/3882#issuecomment-3382480890 */
   exclude: properties;
+}
+
+/* animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
 }

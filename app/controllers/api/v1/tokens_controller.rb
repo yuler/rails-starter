@@ -5,8 +5,11 @@ class Api::V1::TokensController < Api::V1::BaseController
   def create
     @identity = Identity.authenticate_by(identity_params)
 
-    return render_json_created(json: { token: generate_identity_jwt_token(@identity) }) if @identity
-    render_json_unauthorized
+    if @identity
+      render_json_created(json: { token: generate_identity_jwt_token(@identity) })
+    else
+      render_json_unauthorized
+    end
   end
 
   private

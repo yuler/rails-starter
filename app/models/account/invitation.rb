@@ -1,6 +1,4 @@
 class Account::Invitation < ApplicationRecord
-  after_create :send_invitation_email
-
   belongs_to :account
   belongs_to :invited_by, class_name: "User"
 
@@ -9,6 +7,8 @@ class Account::Invitation < ApplicationRecord
   validates :email, presence: true
   validates :email, uniqueness: { scope: :account_id, message: "has already been invited" }
 
+  after_create :send_invitation_email
+
   def accept_url
     Rails.application.routes.url_helpers.account_invitation_accept_url(
       token,
@@ -16,7 +16,7 @@ class Account::Invitation < ApplicationRecord
     )
   end
 
-  def accept!
+  def accept
     if email != Current.identity.email
       raise <<~message
         Your email does not match the email of the invitation.

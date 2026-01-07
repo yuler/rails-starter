@@ -3,14 +3,19 @@ class Account < ApplicationRecord
   has_many :invitations, class_name: "Account::Invitation", dependent: :destroy
   has_one_attached :logo
 
-  before_create :generate_slug!
-
   validates :name, presence: true
 
+  before_create :generate_slug
+
   class << self
-    def create_with_owner!(account:, owner:)
+    def create_with_owner(account:, owner:)
       transaction do
-        create!(**account).tap do |account|
+        new_account = create(**account)
+        unless new_account.persisted?
+          return new_account
+        end
+
+        new_account.tap do |account|
           account.users.create!(role: :system, name: "System")
           account.users.create!(**owner.with_defaults(role: :owner, verified_at: Time.current))
         end
@@ -27,7 +32,7 @@ class Account < ApplicationRecord
   end
 
   private
-    def generate_slug!
+    def generate_slug
       loop do
         self.slug = Base32.generate(AccountSlug::LENGTH)
         break slug unless self.class.exists?(slug: slug)
