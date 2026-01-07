@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import "reset";
-@import "flash";
+@import "./reset.css";
+@import "./flash.css";
 
 @plugin "@tailwindcss/typography";
 
