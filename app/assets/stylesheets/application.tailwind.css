@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "reset";
+@import "flash";
 
 @plugin "@tailwindcss/typography";
 

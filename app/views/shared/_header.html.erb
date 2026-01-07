@@ -1,7 +1,7 @@
-<header id="header" class="header w-full bg-transparent shadow">
+<header id="header" class="header w-full sticky top-0 z-50 bg-transparent shadow backdrop-blur-sm">
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 btn" data-turbo="false">Skip to main content</a>
 
-  <div class="navbar bg-base-100 max-w-7xl mx-auto px-4">
+  <div class="navbar max-w-7xl mx-auto px-4">
     <div class="flex-1">
       <a href="/" class="text-xl font-bold text-primary">
         <%= image_tag 'logo.png', alt: 'Logo', class: 'h-8 w-8 inline-block align-middle mr-2' %>
@@ -80,7 +80,7 @@
             </li>
           </ul>
         </div>
-      <% elsif current_page?(my_accounts_path) %>
+      <% elsif !current_page?(sign_in_path) %>
         <!-- Auth Buttons -->
         <div class="flex gap-2">
           <a href="<%= sign_in_path %>" class="btn">Sign In</a>
