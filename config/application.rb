@@ -30,8 +30,6 @@ module RailsStarter
     end
 
     # Mission dashboard
-    config.mission_control.jobs.http_basic_auth_user = ENV.fetch("MISSION_DASHBOARD_USERNAME", "admin")
-    config.mission_control.jobs.http_basic_auth_password = ENV.fetch("MISSION_DASHBOARD_PASSWORD", "123456")
-    config.mission_control.jobs.base_controller_class = "MissionBaseController"
+    config.mission_control.jobs.http_basic_auth_enabled = false
   end
 end
