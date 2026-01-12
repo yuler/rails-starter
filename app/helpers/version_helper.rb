@@ -4,6 +4,6 @@ module VersionHelper
   end
 
   def git_revision_badge
-    tag.span(Rails.application.config.git_revision, class: "git-revision-badge")
+    tag.span(Rails.application.config.git_revision.slice(0, 7), class: "git-revision-badge")
   end
 end

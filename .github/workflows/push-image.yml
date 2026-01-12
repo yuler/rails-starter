@@ -87,6 +87,10 @@ jobs:
           labels: |
             org.opencontainers.image.source=${{ env.SOURCE_URL }}
 
+      - name: Extract package version
+        id: pkg
+        run: echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+
       - name: Build and push (${{ matrix.platform }})
         id: build
         uses: docker/build-push-action@v6.18.0
@@ -96,6 +100,8 @@ jobs:
           build-args: |
             OCI_SOURCE=${{ env.SOURCE_URL }}
             OCI_DESCRIPTION=${{ env.IMAGE_DESCRIPTION }}
+            APP_VERSION=${{ steps.pkg.outputs.version }}
+            GIT_REVISION=${{ github.sha }}
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
