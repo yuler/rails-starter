@@ -3,7 +3,7 @@
 
   <div class="navbar max-w-7xl mx-auto px-4">
     <div class="flex-1">
-      <a href="/" class="text-xl font-bold text-primary">
+      <a href="<%= current_page?(root_path) ? home_index_path : root_path %>" class="text-xl font-bold text-primary">
         <%= image_tag 'logo.png', alt: 'Logo', class: 'h-8 w-8 inline-block align-middle mr-2' %>
       </a>
     </div>

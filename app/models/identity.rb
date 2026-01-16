@@ -18,11 +18,7 @@ class Identity < ApplicationRecord
   end
 
   def personal_account
-    if account = accounts.personal.first
-      return account
-    end
-
-    with_lock do
+    @personal_account ||= accounts.personal.first || with_lock do
       accounts.personal.first || create_personal_account
     end
   end
