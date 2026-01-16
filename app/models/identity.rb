@@ -18,7 +18,13 @@ class Identity < ApplicationRecord
   end
 
   def personal_account
-    accounts.personal.first || create_personal_account
+    if account = accounts.personal.first
+      return account
+    end
+
+    with_lock do
+      accounts.personal.first || create_personal_account
+    end
   end
 
   # TODO:
@@ -36,8 +42,8 @@ class Identity < ApplicationRecord
     end
   end
 
-  def create_personal_account
-    with_lock do
+  private
+    def create_personal_account
       Account.create_with_owner(
         account: {
           name: "#{full_name}'s Personal Account",
@@ -49,9 +55,7 @@ class Identity < ApplicationRecord
         }
       )
     end
-  end
 
-  private
     def deactivate_users
       users.find_each(&:deactivate)
     end

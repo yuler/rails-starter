@@ -33,7 +33,7 @@ class Account < ApplicationRecord
   end
 
   def slug_path
-    AccountSlug.encode(slug)
+    team? ? AccountSlug.encode(slug) : nil
   end
 
   def system_user
