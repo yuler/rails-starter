@@ -37,16 +37,18 @@ class Identity < ApplicationRecord
   end
 
   def create_personal_account
-    Account.create_with_owner(
-      account: {
-        name: "#{full_name}'s Account",
-        personal: true
-      },
-      owner: {
-        name: full_name,
-        identity: self
-      }
-    )
+    with_lock do
+      Account.create_with_owner(
+        account: {
+          name: "#{full_name}'s Personal Account",
+          personal: true
+        },
+        owner: {
+          name: full_name,
+          identity: self
+        }
+      )
+    end
   end
 
   private

@@ -8,6 +8,10 @@ class Account < ApplicationRecord
   validates :name, presence: true
 
   before_create :generate_slug
+
+  scope :personal, -> { where(personal: true) }
+  scope :team, -> { where(personal: false) }
+
   class << self
     def create_with_owner(account:, owner:)
       transaction do
@@ -22,6 +26,10 @@ class Account < ApplicationRecord
         end
       end
     end
+  end
+
+  def team?
+    !personal?
   end
 
   def slug_path
