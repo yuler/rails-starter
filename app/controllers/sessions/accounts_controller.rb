@@ -1,6 +1,4 @@
 class Sessions::AccountsController < ApplicationController
-  disallow_account_scope
-
   def new
     @account = Current.identity.accounts.new
   end

@@ -2,8 +2,8 @@ module Authentication
   extend ActiveSupport::Concern
 
   included do
-    before_action :require_account
     before_action :require_authentication
+    before_action :require_account
     helper_method :authenticated?
 
     # before_action: set_sentry_context, TODO:
@@ -19,12 +19,8 @@ module Authentication
 
     def allow_unauthenticated_access(**options)
       skip_before_action :require_authentication, **options
-      before_action :resume_session, **options
-    end
-
-    def disallow_account_scope(**options)
       skip_before_action :require_account, **options
-      before_action :redirect_accounted_request, **options
+      before_action :resume_session, **options
     end
 
     alias_method :skip_authentication, :allow_unauthenticated_access
@@ -71,18 +67,12 @@ module Authentication
     end
 
     def after_authentication_url
-      session.delete(:return_to_after_authenticating) || main_app.home_url(script_name: nil)
+      session.delete(:return_to_after_authenticating) || main_app.root_url
     end
 
     def redirect_authenticated_user
       if authenticated?
-        redirect_to main_app.home_url, alert: "You are already signed in."
-      end
-    end
-
-    def redirect_accounted_request
-      if Current.account.present?
-        redirect_to main_app.home_url, alert: "You are already in an account."
+        redirect_to main_app.root_url
       end
     end
 

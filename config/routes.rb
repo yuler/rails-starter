@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root "landings#show"
+  root "home#show"
 
-  get "home", to: "home#show", as: :home
+  get "home", to: "landings#show", as: :home
 
   resource :session do
     scope module: :sessions do
