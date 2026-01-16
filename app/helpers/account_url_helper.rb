@@ -1,12 +1,4 @@
 module AccountUrlHelper
-  def landing_path
-    main_app.root_path(script_name: nil)
-  end
-
-  def landing_url
-    main_app.root_url(script_name: nil)
-  end
-
   def sign_in_path
     main_app.new_session_path(script_name: nil)
   end
