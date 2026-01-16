@@ -8,10 +8,10 @@ module AccountUrlHelper
   end
 
   def my_accounts_path
-    main_app.session_accounts_path(script_name: nil)
+    main_app.my_accounts_path(script_name: nil)
   end
 
   def my_accounts_url
-    main_app.session_accounts_url(script_name: nil)
+    main_app.my_accounts_url(script_name: nil)
   end
 end
