@@ -3,7 +3,6 @@ class Identity < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :users, dependent: :nullify
   has_many :accounts, through: :users
-  belongs_to :personal_account, class_name: "Account", optional: true
 
   # TODO:?
   has_one_attached :avatar
@@ -12,6 +11,15 @@ class Identity < ApplicationRecord
   normalizes :email, with: ->(value) { value.strip.downcase.presence }
 
   before_destroy :deactivate_users, prepend: true
+
+
+  def full_name
+    email.split("@").first.humanize
+  end
+
+  def personal_account
+    accounts.personal.first || create_personal_account
+  end
 
   # TODO:
   def self.find_by_permissable_access_token(token, method:)
@@ -28,14 +36,6 @@ class Identity < ApplicationRecord
     end
   end
 
-  def full_name
-    email.split("@").first.humanize
-  end
-
-  def personal_account
-    accounts.personal.first || create_personal_account
-  end
-
   def create_personal_account
     Account.create_with_owner(
       account: {
@@ -49,19 +49,12 @@ class Identity < ApplicationRecord
     )
   end
 
-  # Get or lazily create the personal account
-  def ensure_personal_account!
-    return personal_account if personal_account.present?
-
-    create_personal_account!
-  end
-
   private
     def deactivate_users
       users.find_each(&:deactivate)
     end
 
-    def create_personal_account!
+    def create_personal_account
       Account.transaction do
         account = Account.create!(
           name: "#{full_name}'s Personal Account",

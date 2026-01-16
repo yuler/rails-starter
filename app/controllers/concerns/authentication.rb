@@ -37,16 +37,7 @@ module Authentication
 
     def require_account
       if !Current.account.present?
-        # Solo mode: if user is authenticated, redirect to their personal account
-        if authenticated? && Current.identity.personal_account.present?
-          redirect_to root_url(script_name: Current.identity.personal_account.slug_path)
-        elsif authenticated? && Rails.application.config.solo_account_enabled
-          # Lazy create personal account
-          personal_account = Current.identity.ensure_personal_account!
-          redirect_to root_url(script_name: personal_account.slug_path)
-        else
-          redirect_to main_app.session_accounts_url(script_name: nil)
-        end
+        redirect_to main_app.session_accounts_url(script_name: nil)
       end
     end
 
