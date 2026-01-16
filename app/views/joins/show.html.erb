@@ -1,0 +1,49 @@
+<% @page_title = "Join #{@account.name}" %>
+
+<div class="min-h-screen flex items-center justify-center bg-base-200">
+  <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card-body text-center">
+      <% if @account.logo.attached? %>
+        <%= image_tag @account.logo, class: "w-20 h-20 rounded-full mx-auto mb-4" %>
+      <% else %>
+        <div class="avatar placeholder mx-auto mb-4">
+          <div class="bg-primary text-primary-content rounded-full w-20">
+            <span class="text-2xl"><%= @account.name.first.upcase %></span>
+          </div>
+        </div>
+      <% end %>
+
+      <h2 class="card-title justify-center text-2xl"><%= @account.name %></h2>
+
+      <% if @account.description.present? %>
+        <p class="text-base-content/70"><%= @account.description %></p>
+      <% end %>
+
+      <div class="divider">You've been invited</div>
+
+      <% if @join_code.active? %>
+        <% if Current.identity %>
+          <%= form_with url: join_path(@join_code.code), method: :post, class: "w-full" do %>
+            <button type="submit" class="btn btn-primary btn-block">
+              Join as <%= Current.identity.email %>
+            </button>
+          <% end %>
+          <p class="text-sm text-base-content/50 mt-4">
+            Not you? <%= link_to "Sign out", session_path, method: :delete, class: "link" %> and use a different account.
+          </p>
+        <% else %>
+          <%= link_to new_session_path(return_to: join_path(@join_code.code)), class: "btn btn-primary btn-block" do %>
+            Sign in to join
+          <% end %>
+          <p class="text-sm text-base-content/50 mt-4">
+            You'll be asked to sign in or create an account first.
+          </p>
+        <% end %>
+      <% else %>
+        <div class="alert alert-warning">
+          <span>This join link is no longer active.</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
