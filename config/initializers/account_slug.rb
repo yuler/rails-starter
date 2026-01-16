@@ -1,7 +1,6 @@
 module AccountSlug
-  LENGTH = 8
   PATTERN = /([a-zA-Z0-9_-]+)/
-  PATH_INFO_MATCH = /\A(\/#{PATTERN}\/~)/
+  PATH_INFO_MATCH = /\Ateams\/(\/#{PATTERN}\/~)/
 
   class Extractor
     def initialize(app)
@@ -40,7 +39,7 @@ module AccountSlug
   end
 
   def self.decode(slug) slug end
-  def self.encode(slug) "#{slug}/~/" end
+  def self.encode(slug) "/teams/#{slug}/~/" end
 end
 
 Rails.application.config.middleware.insert_after Rack::TempfileReaper, AccountSlug::Extractor

@@ -32,10 +32,15 @@ class Identity < ApplicationRecord
     email.split("@").first.humanize
   end
 
-  def auto_create_account
+  def personal_account
+    accounts.personal.first || create_personal_account
+  end
+
+  def create_personal_account
     Account.create_with_owner(
       account: {
-        name: "#{full_name}'s Account"
+        name: "#{full_name}'s Account",
+        personal: true
       },
       owner: {
         name: full_name,
