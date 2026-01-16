@@ -53,22 +53,4 @@ class Identity < ApplicationRecord
     def deactivate_users
       users.find_each(&:deactivate)
     end
-
-    def create_personal_account
-      Account.transaction do
-        account = Account.create!(
-          name: "#{full_name}'s Personal Account",
-          personal: true
-        )
-        account.users.create!(role: :system, name: "System")
-        account.users.create!(
-          role: :owner,
-          name: full_name,
-          identity: self,
-          verified_at: Time.current
-        )
-        update!(personal_account: account)
-        account
-      end
-    end
 end

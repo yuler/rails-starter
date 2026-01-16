@@ -77,11 +77,9 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_15_102414) do
   create_table "identities", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
-    t.uuid "personal_account_id"
     t.boolean "staff", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_identities_on_email", unique: true
-    t.index ["personal_account_id"], name: "index_identities_on_personal_account_id"
   end
 
   create_table "invite_codes", id: :uuid, force: :cascade do |t|
@@ -125,7 +123,4 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_15_102414) do
     t.index ["account_id", "role"], name: "index_users_on_account_id_and_role"
     t.index ["identity_id"], name: "index_users_on_identity_id"
   end
-
-  add_foreign_key "identities", "accounts", column: "personal_account_id"
-  add_foreign_key "magic_links", "identities"
 end

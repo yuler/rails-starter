@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_12_29_064041) do
+ActiveRecord::Schema[8.2].define(version: 2026_01_15_102414) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,8 +32,10 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_29_064041) do
     t.datetime "created_at", null: false
     t.string "description"
     t.string "name", null: false
+    t.boolean "personal", default: false, null: false
     t.string "slug", null: false
     t.datetime "updated_at", null: false
+    t.index ["personal"], name: "index_accounts_on_personal"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
   end
 
@@ -124,6 +126,4 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_29_064041) do
     t.index ["account_id", "role"], name: "index_users_on_account_id_and_role"
     t.index ["identity_id"], name: "index_users_on_identity_id"
   end
-
-  add_foreign_key "magic_links", "identities"
 end
