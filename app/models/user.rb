@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
+  # TODO: deactivate user
   def deactivate
     transaction do
       # accesses.destroy_all

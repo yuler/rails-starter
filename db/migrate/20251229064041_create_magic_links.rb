@@ -2,7 +2,7 @@ class CreateMagicLinks < ActiveRecord::Migration[8.1]
   def change
     create_table :magic_links, id: :uuid do |t|
       t.string :code
-      t.references :identity, null: false, foreign_key: true, type: :uuid
+      t.references :identity, null: false, type: :uuid
       t.datetime :expires_at
       t.integer :purpose
 

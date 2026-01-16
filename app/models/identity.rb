@@ -12,6 +12,17 @@ class Identity < ApplicationRecord
 
   before_destroy :deactivate_users, prepend: true
 
+
+  def full_name
+    email.split("@").first.humanize
+  end
+
+  def personal_account
+    @personal_account ||= accounts.personal.first || with_lock do
+      accounts.personal.first || create_personal_account
+    end
+  end
+
   # TODO:
   def self.find_by_permissable_access_token(token, method:)
     # if (access_token = AccessToken.find_by(token: token)) && access_token.allows?(method)
@@ -27,23 +38,20 @@ class Identity < ApplicationRecord
     end
   end
 
-  def full_name
-    email.split("@").first.humanize
-  end
-
-  def auto_create_account
-    Account.create_with_owner(
-      account: {
-        name: "#{full_name}'s Account"
-      },
-      owner: {
-        name: full_name,
-        identity: self
-      }
-    )
-  end
-
   private
+    def create_personal_account
+      Account.create_with_owner(
+        account: {
+          name: "#{full_name}'s Personal Account",
+          personal: true
+        },
+        owner: {
+          name: full_name,
+          identity: self
+        }
+      )
+    end
+
     def deactivate_users
       users.find_each(&:deactivate)
     end

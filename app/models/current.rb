@@ -1,11 +1,13 @@
 class Current < ActiveSupport::CurrentAttributes
-  attribute :session, :user, :identity, :account
+  attribute :session, :user, :identity, :account, :personal_account
   attribute :http_method, :request_id, :user_agent, :ip_address, :referrer
 
   def session=(value)
     super(value)
 
     if value.present?
+      # Solo mode
+      self.account = session.identity.personal_account if account.nil?
       self.identity = session.identity
     end
   end

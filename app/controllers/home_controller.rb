@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
-  def show
+  allow_unauthenticated_access
+
+  def index
   end
 end

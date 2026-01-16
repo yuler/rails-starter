@@ -4,7 +4,7 @@
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 10;
+  z-index: 100;
   animation: appear-then-fade 3s 300ms both;
 }
 

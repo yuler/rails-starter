@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  DEFAULT_SLUG_LENGTH = 8
+
   has_many :users, dependent: :destroy
   has_many :invitations, class_name: "Account::Invitation", dependent: :destroy
   has_one_attached :logo
@@ -6,6 +8,9 @@ class Account < ApplicationRecord
   validates :name, presence: true
 
   before_create :generate_slug
+
+  scope :personal, -> { where(personal: true) }
+  scope :team, -> { where(personal: false) }
 
   class << self
     def create_with_owner(account:, owner:)
@@ -23,8 +28,12 @@ class Account < ApplicationRecord
     end
   end
 
+  def team?
+    !personal?
+  end
+
   def slug_path
-    "/#{AccountSlug.encode(slug)}"
+    team? ? AccountSlug.encode(slug) : nil
   end
 
   def system_user
@@ -34,7 +43,7 @@ class Account < ApplicationRecord
   private
     def generate_slug
       loop do
-        self.slug = Base32.generate(AccountSlug::LENGTH)
+        self.slug = Base32.generate(DEFAULT_SLUG_LENGTH)
         break slug unless self.class.exists?(slug: slug)
       end
     end
