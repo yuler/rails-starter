@@ -2,15 +2,14 @@ class Account < ApplicationRecord
   DEFAULT_SLUG_LENGTH = 8
 
   has_many :users, dependent: :destroy
-  has_many :invitations, class_name: "Account::Invitation", dependent: :destroy
-  has_one :join_code, class_name: "Account::JoinCode", dependent: :destroy
+  has_many :invitations, dependent: :destroy
+  has_one :join_code, dependent: :destroy
   has_one_attached :logo
 
-  after_create :create_join_code!
+  before_create :generate_slug
+  after_create :create_join_code
 
   validates :name, presence: true
-
-  before_create :generate_slug
 
   scope :personal, -> { where(personal: true) }
   scope :team, -> { where(personal: false) }

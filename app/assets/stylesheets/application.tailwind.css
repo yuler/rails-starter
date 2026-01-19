@@ -31,3 +31,28 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* TODO: move to button component css */
+/* Copy to clipboard animation */
+@keyframes copied-text {
+  0% {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+}
+
+.btn-copied .copied-text {
+  animation: copied-text 1s ease-in-out;
+}

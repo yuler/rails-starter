@@ -4,10 +4,7 @@ class Account::JoinCode < ApplicationRecord
 
   belongs_to :account
 
-  validates :usage_limit, numericality: {
-    less_than_or_equal_to: USAGE_LIMIT_MAX,
-    message: "cannot be larger than the population of the planet"
-  }
+  validates :usage_limit, numericality: { less_than_or_equal_to: USAGE_LIMIT_MAX, message: "cannot be larger than the population of the planet" }
 
   scope :active, -> { where("usage_count < usage_limit") }
 
@@ -27,13 +24,6 @@ class Account::JoinCode < ApplicationRecord
     generate_code
     self.usage_count = 0
     save!
-  end
-
-  def join_url
-    Rails.application.routes.url_helpers.join_url(
-      code,
-      Rails.application.config.action_mailer.default_url_options
-    )
   end
 
   private

@@ -17,10 +17,11 @@ Rails.application.routes.draw do
   namespace :account do
     resources :users
     resources :invitations
-    resource :join_code, only: [ :show, :edit, :update, :destroy ]
+    resource :join_code
   end
 
-  resources :joins, param: :code, only: [ :show, :create ]
+  get "join/:code", to: "join_codes#new", as: :join
+  post "join/:code", to: "join_codes#create"
 
   resources :account_invitations, param: :token, only: [ :show ] do
     scope module: :account_invitations do

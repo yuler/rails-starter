@@ -10,5 +10,5 @@ application.register("auto-submit", AutoSubmitController)
 import ElementRemovalController from "./element_removal_controller"
 application.register("element-removal", ElementRemovalController)
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import CopyToClipboardController from "./copy_to_clipboard_controller"
+application.register("copy-to-clipboard", CopyToClipboardController)

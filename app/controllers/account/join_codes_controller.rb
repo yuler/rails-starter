@@ -2,15 +2,13 @@ class Account::JoinCodesController < ApplicationController
   before_action :set_join_code
   before_action :ensure_admin, only: %i[ edit update destroy ]
 
-  def show
-  end
-
   def edit
+    @join_code = Current.account.join_code
   end
 
   def update
     if @join_code.update(join_code_params)
-      redirect_to account_join_code_path
+      redirect_back fallback_location: account_join_code_path, notice: "Join code has been updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -18,7 +16,7 @@ class Account::JoinCodesController < ApplicationController
 
   def destroy
     @join_code.reset
-    redirect_to account_join_code_path, notice: "Join code has been reset."
+    redirect_back fallback_location: account_join_code_path, notice: "Join code has been reset."
   end
 
   private
