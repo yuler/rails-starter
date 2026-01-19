@@ -31,7 +31,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_16_102432) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "usage_count", default: 0, null: false
-    t.integer "usage_limit", default: 100, null: false
+    t.integer "usage_limit", default: 10, null: false
     t.index ["account_id"], name: "index_account_join_codes_on_account_id", unique: true
     t.index ["code"], name: "index_account_join_codes_on_code", unique: true
   end
@@ -134,6 +134,4 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_16_102432) do
     t.index ["account_id", "role"], name: "index_users_on_account_id_and_role"
     t.index ["identity_id"], name: "index_users_on_identity_id"
   end
-
-  add_foreign_key "account_join_codes", "accounts"
 end
