@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :accounts
   end
 
-  namespace :account do
+  scope module: :account, as: :account do
     resources :users
     resources :invitations
     resource :join_code
