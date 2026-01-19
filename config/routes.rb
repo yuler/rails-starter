@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "landings#show"
 
+  resource :landing
   resources :home
 
   resource :session do

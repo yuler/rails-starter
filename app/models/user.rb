@@ -14,4 +14,12 @@ class User < ApplicationRecord
       # close_remote_connections
     end
   end
+
+  def verified?
+    verified_at.present?
+  end
+
+  def verify
+    update!(verified_at: Time.current) unless verified?
+  end
 end

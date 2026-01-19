@@ -1,4 +1,6 @@
 class Identity < ApplicationRecord
+  include Identity::Joinable
+
   has_many :magic_links, dependent: :destroy
   has_many :sessions, dependent: :destroy
   has_many :users, dependent: :nullify
