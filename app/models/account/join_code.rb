@@ -6,7 +6,7 @@ class Account::JoinCode < ApplicationRecord
 
   validates :usage_limit, numericality: { less_than_or_equal_to: USAGE_LIMIT_MAX, message: "cannot be larger than the usage limit (max #{USAGE_LIMIT_MAX})" }
 
-  scope :active, -> { where("usage_count < usage_limit") }
+  scope :active, -> { where("account_join_codes.usage_count < account_join_codes.usage_limit") }
 
   before_create :generate_code, if: -> { code.blank? }
 

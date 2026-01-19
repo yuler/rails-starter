@@ -11,7 +11,7 @@ class JoinCodesController < ApplicationController
 
   def create
     @join_code.redeem_if { |account| @identity.join(account) }
-    user = @identity.users.find_or_create_by!(account: @join_code.account)
+    user = User.active.find_by!(account: @join_code.account, identity: @identity)
     user.verify
 
     return_to_landing_url = landing_url(script_name: @join_code.account.slug_path)

@@ -3,7 +3,6 @@ class Account::JoinCodesController < ApplicationController
   before_action :ensure_admin, only: %i[ edit update destroy ]
 
   def edit
-    @join_code = Current.account.join_code
   end
 
   def update

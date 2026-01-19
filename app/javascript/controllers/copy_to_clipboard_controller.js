@@ -11,7 +11,9 @@ export default class extends Controller {
     try {
       await navigator.clipboard.writeText(this.contentValue)
       this.element.classList.add(this.successClass)
-    } catch {}
+    } catch (error) {
+      console.error("[copy-to-clipboard] controller: Failed to copy to clipboard: ", error);
+    }
   }
 
   reset() {
