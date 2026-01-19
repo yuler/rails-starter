@@ -4,9 +4,8 @@ class My::AccountsController < ApplicationController
   end
 
   def create
-    the_account_params = account_params
     @account = Account.create_with_owner(
-      account: the_account_params,
+      account: account_params,
       owner: {
         name: Current.identity.full_name,
         identity: Current.identity
@@ -18,13 +17,6 @@ class My::AccountsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  rescue => error
-    @account ||= Account.new(the_account_params)
-    @account.errors.add(:base, "Something went wrong, and we couldn't create your account. Please give it another try.")
-    Rails.error.report(error, severity: :error)
-    Rails.logger.error error
-    Rails.logger.error error.backtrace.join("\n")
-    render :new, status: :unprocessable_entity
   end
 
   def index
