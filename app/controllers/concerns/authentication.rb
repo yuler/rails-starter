@@ -33,7 +33,7 @@ module Authentication
 
     def require_account
       if !Current.account.present?
-        redirect_to main_app.session_accounts_url(script_name: nil)
+        redirect_to main_app.my_accounts_url(script_name: nil)
       end
     end
 

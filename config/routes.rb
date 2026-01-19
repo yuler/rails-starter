@@ -7,8 +7,11 @@ Rails.application.routes.draw do
     scope module: :sessions do
       # resources :transfers
       resource :magic_link
-      resources :accounts
     end
+  end
+
+  namespace :my do
+    resources :accounts
   end
 
   namespace :account do
