@@ -1,10 +1,10 @@
 class Account::JoinCode < ApplicationRecord
-  CODE_LENGTH = 12
-  USAGE_LIMIT_MAX = 10_000_000_000
+  CODE_LENGTH = 20
+  USAGE_LIMIT_MAX = 100
 
   belongs_to :account
 
-  validates :usage_limit, numericality: { less_than_or_equal_to: USAGE_LIMIT_MAX, message: "cannot be larger than the population of the planet" }
+  validates :usage_limit, numericality: { less_than_or_equal_to: USAGE_LIMIT_MAX, message: "cannot be larger than the usage limit (max #{USAGE_LIMIT_MAX})" }
 
   scope :active, -> { where("usage_count < usage_limit") }
 

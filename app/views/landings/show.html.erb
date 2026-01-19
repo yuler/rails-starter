@@ -25,7 +25,7 @@
   <%= debug Current.account.inspect %>
 
   <p>Join Url:</p>
-  <% url = join_url(code: Current.account.join_code.code, script_name: "/#{Current.account.slug}") %>
+  <% url = join_url(code: Current.account.join_code.code, script_name: Current.account.slug_path) %>
   <div class="flex gap-4 items-center">
     <code>
       <%= url %>

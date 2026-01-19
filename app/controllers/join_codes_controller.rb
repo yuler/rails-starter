@@ -12,17 +12,18 @@ class JoinCodesController < ApplicationController
   def create
     @join_code.redeem_if { |account| @identity.join(account) }
     user = @identity.users.find_or_create_by!(account: @join_code.account)
-
     user.verify
 
+    return_to_landing_url = landing_url(script_name: @join_code.account.slug_path)
+
     if @identity == Current.identity
-      redirect_to landing_url(script_name: @join_code.account.slug)
+      redirect_to return_to_landing_url
     else
       terminate_session if Current.identity
 
       redirect_to_session_magic_link \
         @identity.send_magic_link,
-        return_to: landing_url(script_name: @join_code.account.slug)
+        return_to: return_to_landing_url
     end
   end
 
