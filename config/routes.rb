@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "landings#show"
 
+  resource :landing
   resources :home
 
   resource :session do
@@ -17,8 +18,11 @@ Rails.application.routes.draw do
   namespace :account do
     resources :users
     resources :invitations
-    # TODO: joinable
+    resource :join_code
   end
+
+  get "join/:code", to: "join_codes#new", as: :join
+  post "join/:code", to: "join_codes#create"
 
   resources :account_invitations, param: :token, only: [ :show ] do
     scope module: :account_invitations do

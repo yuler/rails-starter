@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_01_15_102414) do
+ActiveRecord::Schema[8.2].define(version: 2026_01_16_102432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,6 +26,17 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_15_102414) do
     t.index ["account_id"], name: "index_account_invitations_on_account_id"
     t.index ["invited_by_id"], name: "index_account_invitations_on_invited_by_id"
     t.index ["token"], name: "index_account_invitations_on_token", unique: true
+  end
+
+  create_table "account_join_codes", id: :uuid, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "usage_count", default: 0, null: false
+    t.integer "usage_limit", default: 10, null: false
+    t.index ["account_id"], name: "index_account_join_codes_on_account_id", unique: true
+    t.index ["code"], name: "index_account_join_codes_on_code", unique: true
   end
 
   create_table "accounts", id: :uuid, force: :cascade do |t|
@@ -126,4 +137,6 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_15_102414) do
     t.index ["account_id", "role"], name: "index_users_on_account_id_and_role"
     t.index ["identity_id"], name: "index_users_on_identity_id"
   end
+
+  add_foreign_key "account_join_codes", "accounts"
 end
