@@ -1,0 +1,45 @@
+# This migration comes from pay (originally 1)
+class CreatePaymentTables < ActiveRecord::Migration[6.0]
+  def change
+    create_table :account_charges, id: :uuid do |t|
+      t.references :account, null: false, type: :uuid
+      t.references :subscription, null: true, type: :uuid
+
+      t.string :provider, null: false
+      t.string :currency, default: "USD" 
+      t.integer :amount, null: false
+      t.integer :amount_refunded, default: 0
+      t.string :status # pending, succeeded, failed, refunded
+
+      t.timestamps
+      
+      t.index :provider
+    end
+
+    create_table :account_subscriptions, id: :uuid do |t|
+      t.references :account, null: false, type: :uuid
+      t.string :provider, null: false
+      t.string :provider_customer_id, null: false
+      t.string :provider_subscription_id, null: false
+      t.string :plan_key, null: false
+      t.string :status, null: false # active past_due unpaid canceled incomplete incomplete_expired trialing paused
+      t.integer :next_amount, null: false
+      t.datetime :current_period_end
+      t.datetime :canceled_at
+
+      t.timestamps
+
+      t.index :provider
+      t.index :provider_customer_id
+      t.index :provider_subscription_id
+    end
+
+    create_table :account_payment_webhooks, id: :uuid do |t|
+      t.string :provider, null: false
+      t.string :event_type, null: false
+      t.json :event_raw_data, null: false
+
+      t.timestamps
+    end
+  end
+end

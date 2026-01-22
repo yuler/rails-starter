@@ -282,6 +282,8 @@ GEM
     parser (3.3.10.0)
       ast (~> 2.4.1)
       racc
+    pay (11.4.3)
+      rails (>= 7.0.0)
     pg (1.6.3)
     pg (1.6.3-aarch64-linux)
     pg (1.6.3-aarch64-linux-musl)
@@ -413,6 +415,7 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.2.0)
+    stripe (18.2.0)
     thor (1.5.0)
     thruster (0.1.17)
     thruster (0.1.17-aarch64-linux)
@@ -475,6 +478,7 @@ DEPENDENCIES
   letter_opener
   letter_opener_web
   mission_control-jobs
+  pay
   pg (~> 1.6)
   propshaft
   puma (>= 5.0)
@@ -487,6 +491,7 @@ DEPENDENCIES
   solid_queue
   sqlite3 (>= 2.8)
   stimulus-rails
+  stripe
   thruster
   trilogy (~> 2.9)
   turbo-rails

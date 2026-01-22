@@ -17,8 +17,16 @@ Rails.application.routes.draw do
 
   namespace :account do
     resources :users
-    resources :invitations
     resource :join_code
+    resources :invitations
+    resources :charges
+    resource :payment
+    resource :subscription do
+      # scope module: :subscriptions do
+      #   resource :upgrade, only: :create
+      #   resource :downgrade, only: :create
+      # end
+    end
   end
 
   get "join/:code", to: "join_codes#new", as: :join

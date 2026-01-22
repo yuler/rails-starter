@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  include Account::Payable
+
   DEFAULT_SLUG_LENGTH = 8
 
   has_many :users, dependent: :destroy

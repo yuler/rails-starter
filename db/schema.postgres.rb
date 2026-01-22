@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_12_19_000000) do
+ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "account_charges", id: :uuid, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.integer "amount", null: false
+    t.integer "amount_refunded", default: 0
+    t.datetime "created_at", null: false
+    t.string "currency", default: "USD"
+    t.string "provider", null: false
+    t.string "status"
+    t.uuid "subscription_id"
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_charges_on_account_id"
+    t.index ["provider"], name: "index_account_charges_on_provider"
+    t.index ["subscription_id"], name: "index_account_charges_on_subscription_id"
+  end
 
   create_table "account_invitations", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
@@ -37,6 +52,32 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_19_000000) do
     t.integer "usage_limit", default: 10, null: false
     t.index ["account_id"], name: "index_account_join_codes_on_account_id", unique: true
     t.index ["code"], name: "index_account_join_codes_on_code", unique: true
+  end
+
+  create_table "account_payment_webhooks", id: :uuid, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json "event_raw_data", null: false
+    t.string "event_type", null: false
+    t.string "provider", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "account_subscriptions", id: :uuid, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "canceled_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "current_period_end", precision: nil
+    t.integer "next_amount", null: false
+    t.string "plan_key", null: false
+    t.string "provider", null: false
+    t.string "provider_customer_id", null: false
+    t.string "provider_subscription_id", null: false
+    t.string "status", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_subscriptions_on_account_id"
+    t.index ["provider"], name: "index_account_subscriptions_on_provider"
+    t.index ["provider_customer_id"], name: "index_account_subscriptions_on_provider_customer_id"
+    t.index ["provider_subscription_id"], name: "index_account_subscriptions_on_provider_subscription_id"
   end
 
   create_table "accounts", id: :uuid, force: :cascade do |t|
