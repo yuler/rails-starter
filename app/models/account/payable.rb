@@ -18,9 +18,7 @@ module Account::Payable
     end
 
     def create_charge(plan_key:, **attributes)
-      # create charges
-      # Account::Charge.create!(provider: provider, plan_key: plan_key, **attributes)
-
+      # TODO: insert the payment record to the database
       # creem
       if provider == :creem
         Account::Payable::Creem.new.create_one_time_payment(plan_key: plan_key)

@@ -15,23 +15,28 @@ class Account::PaymentsController < ApplicationController
     # end
     #
     Account::Payable.set_provider(:creem)
-    response = Account::Payable.create_charge(plan_key: plan_param.key)
-    p response
-
-    # session = Stripe::Checkout::Session.create \
-    #   customer: find_or_create_stripe_customer,
-    #   mode: "subscription",
-    #   line_items: [ { price: plan_param.stripe_price_id, quantity: 1 } ],
-    #   success_url: account_subscription_url + "?session_id={CHECKOUT_SESSION_ID}",
-    #   cancel_url: account_subscription_url,
-    #   metadata: { account_id: Current.account.id, plan_key: plan_param.key },
-    #   automatic_tax: { enabled: true },
-    #   tax_id_collection: { enabled: true },
-    #   billing_address_collection: "required",
-    #   customer_update: { address: "auto", name: "auto" }
-
-    # redirect_to session.url, allow_other_host: true
+    checkout = Account::Payable.create_charge(plan_key: plan_param.key, success_url: account_payment_url)
+    redirect_to checkout.checkout_url, allow_other_host: true
+  rescue Account::Payable::CreemError => e
+    Rails.logger.error("[PaymentsController] Payment creation failed: #{e.message}")
+    flash[:alert] = "Failed to create payment: #{e.message}"
+    # redirect back to previous page, or to home page if no referer
+    redirect_back_or_to root_path
   end
+
+  # session = Stripe::Checkout::Session.create \
+  #   customer: find_or_create_stripe_customer,
+  #   mode: "subscription",
+  #   line_items: [ { price: plan_param.stripe_price_id, quantity: 1 } ],
+  #   success_url: account_subscription_url + "?session_id={CHECKOUT_SESSION_ID}",
+  #   cancel_url: account_subscription_url,
+  #   metadata: { account_id: Current.account.id, plan_key: plan_param.key },
+  #   automatic_tax: { enabled: true },
+  #   tax_id_collection: { enabled: true },
+  #   billing_address_collection: "required",
+  #   customer_update: { address: "auto", name: "auto" }
+
+  # redirect_to session.url, allow_other_host: true
 
   private
     def plan_param
