@@ -15,11 +15,11 @@ Rails.application.routes.draw do
     resources :accounts
   end
 
-  namespace :account do
+  scope module: :account, as: :account do
     resources :users
     resource :join_code
     resources :invitations
-    resources :charges
+    # resources :charges # billings?
     resource :payment
     resource :subscription do
       # scope module: :subscriptions do
