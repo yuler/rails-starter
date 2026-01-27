@@ -42,6 +42,10 @@ gem "faraday"
 # gem "faraday-multipart"
 # gem "faraday-follow_redirects"
 
+# Payments
+gem "pay"
+gem "stripe"
+
 # Others
 # gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
