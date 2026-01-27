@@ -7,12 +7,11 @@ class Account::PaymentsController < ApplicationController
   end
 
   def create
-    checkout = Account::Payable.create_charge(plan_key: plan_param.key, success_url: account_payment_url)
+    checkout = Account::Payable.create_charge(plan_key: plan_param.key, success_url: account_payment_url(provider: plan_param.provider))
     redirect_to checkout.fetch("checkout_url"), allow_other_host: true
-  rescue Account::Payable::CreemError => e
+  rescue Account::Payable::Creem::CreemError => e
     Rails.logger.error("[PaymentsController] Payment creation failed: #{e.message}")
     flash[:alert] = "Failed to create payment: #{e.message}"
-    # redirect back to previous page, or to home page if no referer
     redirect_back_or_to root_path
   end
 
@@ -22,7 +21,9 @@ class Account::PaymentsController < ApplicationController
     end
 
     def set_checkout
-      @checkout = Account::Payable.find_checkout(id: params[:checkout_id]) if params[:checkout_id].present?
+      if params[:provider].present? && params[:checkout_id].present?
+        @checkout = Account::Payable.find_checkout(provider: params[:provider], id: params[:checkout_id])
+      end
     end
 
     def payment_params

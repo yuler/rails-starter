@@ -2,39 +2,41 @@ module Account::Payable
   extend ActiveSupport::Concern
 
   PROVIDERS = %w[stripe wechat creem].freeze
+  DEFAULT_PROVIDER = :creem
 
   included do
     has_many :subscriptions, class_name: "Account::Subscription", foreign_key: :account_id, dependent: :destroy
   end
 
   class << self
-    def create_charge(provider: nil, plan_key:, **attributes)
-      plan = Plan.find(plan_key)
-      provider ||= plan.provider.to_sym
-
-      provider_class(provider).new.create_one_time_payment(plan_key: plan_key, **attributes)
+    def create_charge(provider: DEFAULT_PROVIDER, plan_key:, **attributes)
+      resolved_provider = resolve_provider(provider)
+      provider_class(resolved_provider).new.create_one_time_payment(plan_key: plan_key, **attributes)
     end
 
-    def create_subscription(provider:, plan_key:)
-      Account::Subscription.create!(provider: provider, plan_key: plan_key)
-    end
+    # TODO: Implement subscription creation
+    # def create_subscription(provider: DEFAULT_PROVIDER, plan_key:)
+    #   resolved_provider = resolve_provider(provider)
+    #   Account::Subscription.create!(provider: resolved_provider, plan_key: plan_key)
+    # end
 
-    def find_checkout(provider:, id:)
-      provider_class(provider).new.find_checkout(id: id)
+    def find_checkout(provider: DEFAULT_PROVIDER, id:)
+      resolved_provider = resolve_provider(provider)
+      provider_class(resolved_provider).new.find_checkout(id: id)
     end
 
     private
+      def valid?(provider)
+        PROVIDERS.include?(provider.to_s.strip.downcase)
+      end
+
+      def resolve_provider(provider)
+        return DEFAULT_PROVIDER if provider.nil? || provider.to_s.strip.empty?
+        valid?(provider) ? provider.to_s.strip.downcase.to_sym : DEFAULT_PROVIDER
+      end
+
       def provider_class(provider)
-        case provider.to_sym
-        when :creem
-          Creem
-        when :stripe
-          Stripe
-        when :wechat
-          Wechat
-        else
-          raise ArgumentError, "Unknown provider: #{provider}. Supported providers: #{PROVIDERS.join(', ')}"
-        end
+        "Account::Payable::#{provider.to_s.classify}".constantize
       end
   end
 end
