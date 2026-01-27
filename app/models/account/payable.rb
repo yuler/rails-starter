@@ -20,13 +20,12 @@ module Account::Payable
         account: Current.account,
         provider: resolved_provider.to_s,
         plan_key: plan_key,
+        checkout_id: response.body.fetch("id"),
         amount: plan.price,
         currency: "USD",
         status: :pending,
         raw: response.body.to_json
       )
-
-      response.body
     end
 
     # TODO: Implement subscription creation
@@ -38,6 +37,11 @@ module Account::Payable
     def find_checkout(provider: DEFAULT_PROVIDER, id:)
       resolved_provider = resolve_provider(provider)
       provider_class(resolved_provider).new.find_checkout(id: id)
+    end
+
+    def find_charge(provider: DEFAULT_PROVIDER, checkout_id:)
+      resolved_provider = resolve_provider(provider)
+      provider_class(resolved_provider).new.find_charge(checkout_id: checkout_id)
     end
 
     private

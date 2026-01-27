@@ -18,9 +18,12 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
     t.uuid "account_id", null: false
     t.integer "amount", null: false
     t.integer "amount_refunded", default: 0
+    t.string "checkout_id", null: false
     t.datetime "created_at", null: false
     t.string "currency", default: "USD"
+    t.string "plan_key", null: false
     t.string "provider", null: false
+    t.json "raw", null: false
     t.string "status"
     t.uuid "subscription_id"
     t.datetime "updated_at", null: false
@@ -56,9 +59,9 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
 
   create_table "account_payment_webhooks", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.json "event_raw_data", null: false
     t.string "event_type", null: false
     t.string "provider", null: false
+    t.json "raw", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -67,17 +70,18 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
     t.datetime "canceled_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "current_period_end", precision: nil
+    t.string "customer_id", null: false
     t.integer "next_amount", null: false
     t.string "plan_key", null: false
     t.string "provider", null: false
-    t.string "provider_customer_id", null: false
-    t.string "provider_subscription_id", null: false
+    t.json "raw", null: false
     t.string "status", null: false
+    t.string "subscription_id", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_subscriptions_on_account_id"
+    t.index ["customer_id"], name: "index_account_subscriptions_on_customer_id"
     t.index ["provider"], name: "index_account_subscriptions_on_provider"
-    t.index ["provider_customer_id"], name: "index_account_subscriptions_on_provider_customer_id"
-    t.index ["provider_subscription_id"], name: "index_account_subscriptions_on_provider_subscription_id"
+    t.index ["subscription_id"], name: "index_account_subscriptions_on_subscription_id"
   end
 
   create_table "accounts", id: :uuid, force: :cascade do |t|

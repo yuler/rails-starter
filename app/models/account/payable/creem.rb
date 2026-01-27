@@ -19,18 +19,36 @@ class Account::Payable::Creem
     payload[:request_id] = Current.request_id
     payload.merge!(attributes)
 
-    # refs: https://docs.creem.io/api-reference/endpoint/create-checkout
+    # https://docs.creem.io/api-reference/endpoint/create-checkout
     response = connection.post("/v1/checkouts", payload.compact_blank.to_json)
-    response.body
+
+    Account::Charge.create!(
+      account: Current.account,
+      provider: :creem,
+      plan_key: plan.key,
+      checkout_id: response.body.fetch("id"),
+      amount: plan.price,
+      currency: "USD",
+      status: :pending,
+      raw: response.body.to_json
+    )
   end
 
   # TODO: Implement subscription creation
   def create_subscription(body)
   end
 
+  # https://docs.creem.io/api-reference/endpoint/get-checkout
   def find_checkout(id:)
     response = connection.get("/v1/checkouts", { checkout_id: id })
     response.body
+  end
+
+  def find_charge(checkout_id:)
+    response = connection.get("/v1/checkouts", { checkout_id: checkout_id })
+    checkout = response.body
+    charge = Account::Charge.find_by(checkout_id: checkout_id)
+    sync_charge_status(checkout: checkout, charge: charge)
   end
 
   private
@@ -48,7 +66,7 @@ class Account::Payable::Creem
         }
       ) do |conn|
         conn.response :json, content_type: /\bjson$/
-        conn.use Class.new(Faraday::Response::Middleware) {
+        conn.use Class.new(Faraday::Middleware) {
           define_method(:on_complete) do |env|
             Rails.logger.debug("[Creem] api request payload: #{env.request_body}")
             Rails.logger.debug("[Creem] api response body: #{env.response.body}")
@@ -70,11 +88,27 @@ class Account::Payable::Creem
     # refs: https://docs.creem.io/api-reference/endpoint/get-customer
     def find_customer
       response = connection.get("/v1/customers", { email: Current.identity.email })
-      response.body.id
+      response.body.slice("id")
+    rescue
+      nil
     end
 
     # NOTE: Creem currently doesn't support creating customers
     def create_customer
       nil
+    end
+
+    # https://docs.creem.io/api-reference/endpoint/get-checkout#response-status
+    # pending, processing, completed, expired
+    def sync_charge_status(checkout:, charge:)
+      # Add mapping for statuses
+      status_mapping = {
+        "completed" => "succeeded",
+        "processing" => "pending",
+        "expired" => "expired",
+        "failed" => "failed"
+      }
+      charge.update!(status: status_mapping[checkout["status"]])
+      charge
     end
 end
