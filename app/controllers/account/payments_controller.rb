@@ -25,12 +25,4 @@ class Account::PaymentsController < ApplicationController
         @checkout = Account::Payable.find_checkout(provider: params[:provider], id: params[:checkout_id])
       end
     end
-
-    def payment_params
-      params.require(:payment).permit(:amount, :currency, :description)
-    end
-
-    def set_payment
-      @payment = Current.account.payments.find(params[:id])
-    end
 end

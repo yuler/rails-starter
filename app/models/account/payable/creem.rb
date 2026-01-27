@@ -70,7 +70,7 @@ class Account::Payable::Creem
     # refs: https://docs.creem.io/api-reference/endpoint/get-customer
     def find_customer
       response = connection.get("/v1/customers", { email: Current.identity.email })
-      response.body.slice("id")
+      response.body.id
     end
 
     # NOTE: Creem currently doesn't support creating customers

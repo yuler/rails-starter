@@ -5,13 +5,28 @@ module Account::Payable
   DEFAULT_PROVIDER = :creem
 
   included do
-    has_many :subscriptions, class_name: "Account::Subscription", foreign_key: :account_id, dependent: :destroy
+    has_many :subscriptions, dependent: :destroy
+    has_many :charges, dependent: :destroy
   end
 
   class << self
     def create_charge(provider: DEFAULT_PROVIDER, plan_key:, **attributes)
       resolved_provider = resolve_provider(provider)
-      provider_class(resolved_provider).new.create_one_time_payment(plan_key: plan_key, **attributes)
+      plan = Account::Payable::Plan.find(plan_key)
+
+      response = provider_class(resolved_provider).new.create_one_time_payment(plan_key: plan_key, **attributes)
+
+      Account::Charge.create!(
+        account: Current.account,
+        provider: resolved_provider.to_s,
+        plan_key: plan_key,
+        amount: plan.price,
+        currency: "USD",
+        status: :pending,
+        raw: response.body.to_json
+      )
+
+      response.body
     end
 
     # TODO: Implement subscription creation
