@@ -2,7 +2,7 @@
 class Account::Payable::Creem
   class CreemError < StandardError; end
 
-  BASE_URL = ENV.fetch("CREEM_TEST_MODE").present? ? "https://test-api.creem.io" : "https://api.creem.io"
+  BASE_URL = ENV["CREEM_TEST_MODE"].present? ? "https://test-api.creem.io" : "https://api.creem.io"
 
   def create_one_time_payment(plan_key:, **attributes)
     plan = Account::Payable::Plan.find(plan_key)
