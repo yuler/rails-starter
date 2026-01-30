@@ -6,6 +6,8 @@ class Account::Charge < ApplicationRecord
 
   def raw_json
     JSON.parse(raw)
+  rescue JSON::ParserError
+    {}
   end
 
   def paid?

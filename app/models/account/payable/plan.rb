@@ -1,7 +1,7 @@
 class Account::Payable::Plan
   PLANS = {
     free_v1: { name: "Free", price: 0, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_FREE"] },
-    starter_v1: { name: "Starter", price: 9900, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_STARTER"] },
+    starter_v1: { name: "Starter", price: 100, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_STARTER"] },
     pro_v1: { name: "Professional", price: 19900, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_PRO"] }
   }
 
