@@ -12,8 +12,7 @@ module Account::Payable
   class << self
     def create_charge(provider: DEFAULT_PROVIDER, plan_key:, **attributes)
       resolved_provider = resolve_provider(provider)
-      plan = Account::Payable::Plan.find(plan_key)
-
+      plan = Account::Payable::Plan.find(plan_key) || raise("Plan not found for key: #{plan_key.inspect}")
       body = provider_class(resolved_provider).new.create_one_time_payment(plan_key: plan_key, **attributes)
 
       Account::Charge.create!(

@@ -101,9 +101,8 @@ class Account::Payable::Creem
         "completed" => "succeeded",
         "expired" => "failed"
       }
-      status = status_mapping[checkout["status"] || "failed"]
-      # if changed, update the status
-      charge.update!(status: status) if charge.status.changed?
+      status = status_mapping[checkout["status"]] || "failed"
+      charge.update!(status: status)
       charge
     end
 end

@@ -14,7 +14,6 @@ class Webhooks::CreemsController < ApplicationController
 
   private
     # refs: https://docs.creem.io/code/webhooks#webhook-signatures
-    # Returns request body on success; raises on verification failure.
     def verify_signature
       payload = request.body.read
       request.body.rewind
@@ -28,7 +27,7 @@ class Webhooks::CreemsController < ApplicationController
       raise ActiveSupport::MessageVerifier::InvalidSignature, "Creem webhook signature mismatch" unless ActiveSupport::SecurityUtils.secure_compare(expected, signature)
 
       JSON.parse(payload)
-    rescue OpenSSL::HMAC::Error => e
+    rescue => e
       Rails.logger.error "Creem webhook signature verification failed: #{e.message}"
       nil
     end
@@ -37,7 +36,7 @@ class Webhooks::CreemsController < ApplicationController
     def save_webhook_event(body)
       event_type = body["eventType"]
       account_id = body.dig("object", "metadata", "account_id")
-      account = Account.find(account_id)
+      account = Account.find_by!(id: account_id)
       Account::PaymentWebhook.create!(
         account: account,
         provider: :creem,

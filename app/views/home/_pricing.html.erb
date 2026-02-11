@@ -23,7 +23,7 @@
               <% if plan.free? %>
                 <span class="text-4xl font-bold tracking-tight text-gray-900">Free</span>
               <% else %>
-                <span class="text-4xl font-bold tracking-tight text-gray-900"><%= number_to_currency(plan.price / 100, precision: 2, strip_insignificant_zeros: false) %></span>
+                <span class="text-4xl font-bold tracking-tight text-gray-900"><%= number_to_currency(plan.price / 100.0, precision: 2, strip_insignificant_zeros: false) %></span>
                 <span class="text-sm font-semibold leading-6 text-gray-600">/month</span>
               <% end %>
             </p>
