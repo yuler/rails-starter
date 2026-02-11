@@ -1,5 +1,5 @@
 # This migration comes from pay (originally 1)
-class CreatePaymentTables < ActiveRecord::Migration[6.0]
+class CreatePaymentTables < ActiveRecord::Migration[8.2]
   def change
     create_table :account_charges, id: :uuid do |t|
       t.references :account, null: false, type: :uuid
@@ -17,6 +17,8 @@ class CreatePaymentTables < ActiveRecord::Migration[6.0]
       t.timestamps
       
       t.index :provider
+      t.index :checkout_id, unique: true
+      t.index :subscription_id, unique: true
     end
 
     create_table :account_subscriptions, id: :uuid do |t|

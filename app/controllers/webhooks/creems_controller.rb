@@ -3,20 +3,13 @@ class Webhooks::CreemsController < ApplicationController
   skip_forgery_protection
 
   def create
-    body = verify_signature
-    save_webhook_event(body)
-
-    checkout_id = body.dig("object", "id")
-    # https://docs.creem.io/code/webhooks#event-types
-    event_type = body["eventType"]
-    case event_type
-    when "checkout.completed"
-      charge = Account::Payable.find_charge(provider: :creem, checkout_id: checkout_id)
-      charge&.update!(status: "succeeded")
+    if body = verify_signature
+      save_webhook_event(body)
+      dispatch_webhook_event(body)
+      head :ok
     else
-      Rails.logger.warn "Unhandled event type: #{event_type}"
+      head :bad_request
     end
-    head :ok
   end
 
   private
@@ -37,24 +30,31 @@ class Webhooks::CreemsController < ApplicationController
       JSON.parse(payload)
     rescue OpenSSL::HMAC::Error => e
       Rails.logger.error "Creem webhook signature verification failed: #{e.message}"
-      raise
+      nil
     end
 
     # save to database
     def save_webhook_event(body)
       event_type = body["eventType"]
       account_id = body.dig("object", "metadata", "account_id")
-
-      if account_id.blank?
-        Rails.logger.error "Missing account_id in metadata"
-        return
-      end
-
+      account = Account.find(account_id)
       Account::PaymentWebhook.create!(
-        account: Account.find(account_id),
+        account: account,
         provider: :creem,
         event_type: event_type,
         raw: body.to_json
       )
+    end
+
+    def dispatch_webhook_event(body)
+      event_type = body["eventType"]
+      checkout_id = body.dig("object", "id")
+      case event_type
+      when "checkout.completed"
+        charge = Account::Payable.find_charge(provider: :creem, checkout_id: checkout_id)
+        charge&.update!(status: "succeeded")
+      else
+        Rails.logger.warn "Unhandled event type: #{event_type}"
+      end
     end
 end

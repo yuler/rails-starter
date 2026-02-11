@@ -38,7 +38,12 @@ class Account::Payable::Creem
     response = connection.get("/v1/checkouts", { checkout_id: checkout_id })
     checkout = response.body
     charge = Account::Charge.find_by(checkout_id: checkout_id)
-    sync_charge_status(checkout: checkout, charge: charge)
+
+    if charge.blank?
+      nil
+    else
+      sync_charge_status(checkout: checkout, charge: charge)
+    end
   end
 
   private
@@ -46,7 +51,7 @@ class Account::Payable::Creem
       @connection ||= Faraday.new(
         url: BASE_URL,
         headers: {
-          "x-api-key" => "#{ENV.fetch("CREEM_API_KEY")}",
+          "x-api-key" => ENV.fetch("CREEM_API_KEY"),
           "Content-Type" => "application/json",
           "Accept" => "application/json"
         }.compact,
@@ -76,11 +81,9 @@ class Account::Payable::Creem
     end
 
     # refs: https://docs.creem.io/api-reference/endpoint/get-customer
-    def find_customer
-      response = connection.get("/v1/customers", { email: Current.identity.email })
-      response.body.slice("id")
-    rescue
-      nil
+    def find_customer(email: Current.identity.email)
+      response = connection.get("/v1/customers", { email: email })
+      response&.body&.slice("id")
     end
 
     # NOTE: Creem currently doesn't support creating customers
@@ -98,7 +101,9 @@ class Account::Payable::Creem
         "completed" => "succeeded",
         "expired" => "failed"
       }
-      charge.update!(status: status_mapping[checkout["status"] || "failed"])
+      status = status_mapping[checkout["status"] || "failed"]
+      # if changed, update the status
+      charge.update!(status: status) if charge.status.changed?
       charge
     end
 end
