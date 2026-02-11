@@ -19,11 +19,11 @@ An opinionated template for rapidly starting new Rails project
 ```bash
 gh repo create <your_project_name> --template yuler/rails-starter --private --clone
 # or
-git clone git@github.com:yuler/rails-starter.git <your_project_name>
+git clone https://github.com/yuler/rails-starter.git --depth=1 <your_project_name>
 cd <your_project_name>
 cp .env.example .env # change the configuration
-bin/rails runner rename <your_app_name>
 bin/setup
+bin/rails runner rename <your_app_name>
 bin/dev
 ```
 
