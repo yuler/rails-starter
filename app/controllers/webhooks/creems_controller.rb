@@ -10,6 +10,9 @@ class Webhooks::CreemsController < ApplicationController
     else
       head :bad_request
     end
+  rescue ArgumentError => e
+    Rails.logger.error "Creem webhook processing error: #{e.message}"
+    head :internal_server_error
   end
 
   private
@@ -21,20 +24,21 @@ class Webhooks::CreemsController < ApplicationController
       signature = request.headers["Creem-Signature"]
       secret = ENV["CREEM_WEBHOOK_SECRET"]
 
-      raise ArgumentError, "Missing Creem-Signature or CREEM_WEBHOOK_SECRET" if signature.blank? || secret.blank?
+      if signature.blank? || secret.blank?
+        raise ArgumentError, "Missing Creem-Signature or CREEM_WEBHOOK_SECRET"
+      end
 
       expected = OpenSSL::HMAC.hexdigest("SHA256", secret, payload)
       raise ActiveSupport::MessageVerifier::InvalidSignature, "Creem webhook signature mismatch" unless ActiveSupport::SecurityUtils.secure_compare(expected, signature)
 
       JSON.parse(payload)
-    rescue => e
-      Rails.logger.error "Creem webhook signature verification failed: #{e.message}"
-      nil
     end
 
     # save to database
     def save_webhook_event(body)
-      if webhook = Account::PaymentWebhook.find_by(provider: :creem, raw: { id: body["id"] }.to_json)
+      event_id = body["id"]
+
+      if webhook = Account::PaymentWebhook.find_by(provider: :creem, event_id: event_id)
         webhook
       else
         event_type = body["eventType"]
@@ -44,6 +48,7 @@ class Webhooks::CreemsController < ApplicationController
           account: account,
           provider: :creem,
           event_type: event_type,
+          event_id: event_id,
           raw: body.to_json
         )
       end
@@ -52,6 +57,7 @@ class Webhooks::CreemsController < ApplicationController
     def dispatch_webhook_event(body)
       event_type = body["eventType"]
       checkout_id = body.dig("object", "id")
+
       case event_type
       when "checkout.completed"
         charge = Account::Payable.find_charge(provider: :creem, checkout_id: checkout_id)

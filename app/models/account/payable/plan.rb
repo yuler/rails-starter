@@ -1,6 +1,7 @@
 class Account::Payable::Plan
-  # TODO: free mode
+  # TODO: free mode, credits relationship
   PLANS = {
+    # free: { name: "Free", description: "Free plan", price: 0, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_FREE"] },
     first: { name: "First Time", description: "Only once for new users", price: 100, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_FIRST"] },
     starter: { name: "Starter", description: "Starter packages", price: 9900, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_STARTER"] },
     pro: { name: "Professional", description: "Professional packages", price: 19900, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_PRO"] }

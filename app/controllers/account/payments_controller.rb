@@ -23,7 +23,10 @@ class Account::PaymentsController < ApplicationController
 
     def set_charge
       if params[:provider].present? && params[:checkout_id].present?
-        @charge = Account::Payable.find_charge(provider: params[:provider], checkout_id: params[:checkout_id])
+        @charge = Current.account.charges.find_by(
+          provider: params[:provider],
+          checkout_id: params[:checkout_id],
+        )
       end
     end
 end

@@ -57,6 +57,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
   create_table "account_payment_webhooks", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.uuid "account_id", null: false
     t.datetime "created_at", null: false
+    t.string "event_id", null: false
     t.string "event_type", null: false
     t.string "provider", null: false
     t.json "raw", null: false

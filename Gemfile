@@ -43,7 +43,7 @@ gem "faraday"
 # gem "faraday-follow_redirects"
 
 # Payments
-gem "stripe"
+# gem "stripe"  # TODO: Implement Stripe integration when needed
 
 # Others
 # gem "bcrypt", "~> 3.1.7"

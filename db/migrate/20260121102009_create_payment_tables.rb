@@ -41,6 +41,7 @@ class CreatePaymentTables < ActiveRecord::Migration[8.2]
       t.references :account, null: false, type: :uuid
       t.string :provider, null: false
       t.string :event_type, null: false
+      t.string :event_id, null: false
       t.json :raw, null: false
 
       t.timestamps
