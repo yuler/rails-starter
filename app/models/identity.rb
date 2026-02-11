@@ -20,8 +20,12 @@ class Identity < ApplicationRecord
   end
 
   def personal_account
-    @personal_account ||= accounts.personal.first || with_lock do
-      accounts.personal.first || create_personal_account
+    @personal_account ||= accounts.personal.first || begin
+      save! if changed?
+      reload if persisted?
+      with_lock do
+        accounts.personal.first || create_personal_account
+      end
     end
   end
 

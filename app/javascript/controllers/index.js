@@ -12,3 +12,6 @@ application.register("element-removal", ElementRemovalController)
 
 import CopyToClipboardController from "./copy_to_clipboard_controller"
 application.register("copy-to-clipboard", CopyToClipboardController)
+
+import ButtonLoadingController from "./button_loading_controller"
+application.register("button-loading", ButtonLoadingController)

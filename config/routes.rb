@@ -15,10 +15,23 @@ Rails.application.routes.draw do
     resources :accounts
   end
 
-  namespace :account do
+  scope module: :account, as: :account do
     resources :users
-    resources :invitations
     resource :join_code
+    resources :invitations
+    resource :payment
+    # TODO: implement subscription operations later
+    resource :subscription do
+      # scope module: :subscriptions do
+      #   resource :upgrade, only: :create
+      #   resource :downgrade, only: :create
+      # end
+    end
+    # resources :charges # billings?
+  end
+
+  namespace :webhooks do
+    resource :creem
   end
 
   get "join/:code", to: "join_codes#new", as: :join

@@ -42,6 +42,9 @@ gem "faraday"
 # gem "faraday-multipart"
 # gem "faraday-follow_redirects"
 
+# Payments
+# gem "stripe"  # TODO: Implement Stripe integration when needed
+
 # Others
 # gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
