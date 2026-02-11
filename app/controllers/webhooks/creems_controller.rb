@@ -34,15 +34,19 @@ class Webhooks::CreemsController < ApplicationController
 
     # save to database
     def save_webhook_event(body)
-      event_type = body["eventType"]
-      account_id = body.dig("object", "metadata", "account_id")
-      account = Account.find_by!(id: account_id)
-      Account::PaymentWebhook.create!(
-        account: account,
-        provider: :creem,
-        event_type: event_type,
-        raw: body.to_json
-      )
+      if webhook = Account::PaymentWebhook.find_by(provider: :creem, raw: { id: body["id"] }.to_json)
+        webhook
+      else
+        event_type = body["eventType"]
+        account_id = body.dig("object", "metadata", "account_id")
+        account = Account.find_by!(id: account_id)
+        Account::PaymentWebhook.create!(
+          account: account,
+          provider: :creem,
+          event_type: event_type,
+          raw: body.to_json
+        )
+      end
     end
 
     def dispatch_webhook_event(body)
