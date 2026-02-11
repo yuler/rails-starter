@@ -25,7 +25,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
     t.uuid "subscription_id"
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_charges_on_account_id"
-    t.index ["provider"], name: "index_account_charges_on_provider"
+    t.index ["provider", "checkout_id"], name: "index_account_charges_on_provider_and_checkout_id"
     t.index ["subscription_id"], name: "index_account_charges_on_subscription_id"
   end
 
@@ -62,13 +62,14 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
     t.json "raw", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_payment_webhooks_on_account_id"
+    t.index ["provider", "event_type"], name: "index_account_payment_webhooks_on_provider_and_event_type"
   end
 
   create_table "account_subscriptions", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.datetime "canceled_at", precision: nil
+    t.datetime "canceled_at"
     t.datetime "created_at", null: false
-    t.datetime "current_period_end", precision: nil
+    t.datetime "current_period_end"
     t.string "customer_id", null: false
     t.integer "next_amount", null: false
     t.string "plan_key", null: false
@@ -78,9 +79,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
     t.string "subscription_id", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_subscriptions_on_account_id"
-    t.index ["customer_id"], name: "index_account_subscriptions_on_customer_id"
-    t.index ["provider"], name: "index_account_subscriptions_on_provider"
-    t.index ["subscription_id"], name: "index_account_subscriptions_on_subscription_id"
+    t.index ["provider", "subscription_id"], name: "index_account_subscriptions_on_provider_and_subscription_id"
   end
 
   create_table "accounts", id: :uuid, force: :cascade do |t|

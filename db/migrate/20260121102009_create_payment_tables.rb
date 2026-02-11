@@ -15,10 +15,8 @@ class CreatePaymentTables < ActiveRecord::Migration[8.2]
       t.string :status, null: false # pending, succeeded, failed, refunded
 
       t.timestamps
-      
-      t.index :provider
-      t.index :checkout_id, unique: true
-      t.index :subscription_id, unique: true
+
+      t.index [:provider, :checkout_id]
     end
 
     create_table :account_subscriptions, id: :uuid do |t|
@@ -36,9 +34,7 @@ class CreatePaymentTables < ActiveRecord::Migration[8.2]
 
       t.timestamps
 
-      t.index :provider
-      t.index :customer_id
-      t.index :subscription_id
+      t.index [:provider, :subscription_id]
     end
 
     create_table :account_payment_webhooks, id: :uuid do |t|
@@ -48,6 +44,8 @@ class CreatePaymentTables < ActiveRecord::Migration[8.2]
       t.json :raw, null: false
 
       t.timestamps
+
+      t.index [:provider, :event_type]
     end
   end
 end
