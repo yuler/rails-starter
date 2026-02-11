@@ -43,7 +43,6 @@ gem "faraday"
 # gem "faraday-follow_redirects"
 
 # Payments
-gem "pay"
 gem "stripe"
 
 # Others

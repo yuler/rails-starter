@@ -12,7 +12,7 @@ class CreatePaymentTables < ActiveRecord::Migration[6.0]
       t.string :currency, default: "USD" 
       t.integer :amount, null: false
       t.integer :amount_refunded, default: 0
-      t.string :status # pending, succeeded, failed, refunded
+      t.string :status, null: false # pending, succeeded, failed, refunded
 
       t.timestamps
       
@@ -22,7 +22,6 @@ class CreatePaymentTables < ActiveRecord::Migration[6.0]
     create_table :account_subscriptions, id: :uuid do |t|
       t.references :account, null: false, type: :uuid
       t.string :provider, null: false
-      
       t.string :plan_key, null: false
 
       t.json :raw, null: false
@@ -41,6 +40,7 @@ class CreatePaymentTables < ActiveRecord::Migration[6.0]
     end
 
     create_table :account_payment_webhooks, id: :uuid do |t|
+      t.references :account, null: false, type: :uuid
       t.string :provider, null: false
       t.string :event_type, null: false
       t.json :raw, null: false

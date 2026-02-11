@@ -282,8 +282,6 @@ GEM
     parser (3.3.10.0)
       ast (~> 2.4.1)
       racc
-    pay (11.4.3)
-      rails (>= 7.0.0)
     pg (1.6.3)
     pg (1.6.3-aarch64-linux)
     pg (1.6.3-aarch64-linux-musl)
@@ -478,7 +476,6 @@ DEPENDENCIES
   letter_opener
   letter_opener_web
   mission_control-jobs
-  pay
   pg (~> 1.6)
   propshaft
   puma (>= 5.0)

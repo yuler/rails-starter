@@ -1,7 +1,7 @@
 module Account::Payable
   extend ActiveSupport::Concern
 
-  PROVIDERS = %w[stripe wechat creem].freeze
+  PROVIDERS = %w[creem stripe wechat].freeze
   DEFAULT_PROVIDER = :creem
 
   included do
@@ -14,17 +14,17 @@ module Account::Payable
       resolved_provider = resolve_provider(provider)
       plan = Account::Payable::Plan.find(plan_key)
 
-      response = provider_class(resolved_provider).new.create_one_time_payment(plan_key: plan_key, **attributes)
+      body = provider_class(resolved_provider).new.create_one_time_payment(plan_key: plan_key, **attributes)
 
       Account::Charge.create!(
         account: Current.account,
         provider: resolved_provider.to_s,
         plan_key: plan_key,
-        checkout_id: response.body.fetch("id"),
+        checkout_id: body.fetch("id"),
         amount: plan.price,
         currency: "USD",
         status: :pending,
-        raw: response.body.to_json
+        raw: body.to_json
       )
     end
 

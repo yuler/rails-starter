@@ -8,9 +8,6 @@ class Account::PaymentsController < ApplicationController
 
   def create
     success_url = account_payment_url(provider: plan_param.provider)
-    if Rails.env.development?
-      success_url = "#{ENV["SITE_HOST"]}/payment?provider=#{plan_param.provider}"
-    end
     @charge = Account::Payable.create_charge(plan_key: plan_param.key, success_url: success_url)
     redirect_to @charge.raw_json.fetch("checkout_url"), allow_other_host: true
   rescue Account::Payable::Creem::CreemError => e

@@ -1,11 +1,12 @@
 class Account::Payable::Plan
+  # TODO: free mode
   PLANS = {
-    free_v1: { name: "Free", price: 0, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_FREE"] },
-    starter_v1: { name: "Starter", price: 100, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_STARTER"] },
-    pro_v1: { name: "Professional", price: 19900, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_PRO"] }
+    first: { name: "First Time", description: "Only once for new users", price: 100, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_FIRST"] },
+    starter: { name: "Starter", description: "Starter packages", price: 9900, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_STARTER"] },
+    pro: { name: "Professional", description: "Professional packages", price: 19900, provider: :creem, provider_product_id: ENV["CREEM_PRODUCT_PRO"] }
   }
 
-  attr_reader :key, :name, :price, :provider, :provider_product_id
+  attr_reader :key, :name, :description, :price, :provider, :provider_product_id
 
   class << self
     def all
@@ -13,11 +14,11 @@ class Account::Payable::Plan
     end
 
     def free
-      @free ||= find(:free_v1)
+      @free ||= find(:free)
     end
 
     def paid
-      @paid ||= find(:starter_v1)
+      @paid ||= find(:starter)
     end
 
     def find(key)
@@ -32,9 +33,10 @@ class Account::Payable::Plan
     alias [] find
   end
 
-  def initialize(key:, name:, price:, provider:, provider_product_id:)
+  def initialize(key:, name:, description:, price:, provider:, provider_product_id:)
     @key = key
     @name = name
+    @description = description
     @price = price
     @provider = provider
     @provider_product_id = provider_product_id

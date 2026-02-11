@@ -21,7 +21,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
     t.string "plan_key", null: false
     t.string "provider", null: false
     t.json "raw", null: false
-    t.string "status"
+    t.string "status", null: false
     t.uuid "subscription_id"
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_charges_on_account_id"
@@ -55,11 +55,13 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_102009) do
   end
 
   create_table "account_payment_webhooks", id: :uuid, force: :cascade do |t|
+    t.uuid "account_id", null: false
     t.datetime "created_at", null: false
     t.string "event_type", null: false
     t.string "provider", null: false
     t.json "raw", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_payment_webhooks_on_account_id"
   end
 
   create_table "account_subscriptions", id: :uuid, force: :cascade do |t|

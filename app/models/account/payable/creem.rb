@@ -21,17 +21,7 @@ class Account::Payable::Creem
 
     # https://docs.creem.io/api-reference/endpoint/create-checkout
     response = connection.post("/v1/checkouts", payload.compact_blank.to_json)
-
-    Account::Charge.create!(
-      account: Current.account,
-      provider: :creem,
-      plan_key: plan.key,
-      checkout_id: response.body.fetch("id"),
-      amount: plan.price,
-      currency: "USD",
-      status: :pending,
-      raw: response.body.to_json
-    )
+    response.body
   end
 
   # TODO: Implement subscription creation
@@ -103,12 +93,12 @@ class Account::Payable::Creem
     def sync_charge_status(checkout:, charge:)
       # Add mapping for statuses
       status_mapping = {
-        "completed" => "succeeded",
+        "pending" => "pending",
         "processing" => "pending",
-        "expired" => "expired",
-        "failed" => "failed"
+        "completed" => "succeeded",
+        "expired" => "failed"
       }
-      charge.update!(status: status_mapping[checkout["status"]])
+      charge.update!(status: status_mapping[checkout["status"] || "failed"])
       charge
     end
 end
